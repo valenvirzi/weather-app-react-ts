@@ -1,3 +1,5 @@
+import ForecastChart from "./components/ForecastChart";
+
 function App() {
   return (
     <div className="flex flex-col">
@@ -15,7 +17,7 @@ function App() {
           </button>
         </div>
       </header>
-      <main className="flex flex-col gap-4">
+      <main className="flex flex-col gap-4 px-3">
         <section className="flex flex-col items-center gap-2">
           <div className="flex">
             <h2 className="text-6xl">5</h2>
@@ -27,8 +29,8 @@ function App() {
             <span>Tuesday, 7 de Nov. 2024</span>
           </div>
         </section>
-        <section className="flex items-center justify-between">
-          <article className="flex flex-col gap-2 p-2">
+        <section className="flex items-center justify-between gap-4">
+          <article className="flex w-full flex-col gap-2 rounded-2xl bg-[#3b4770] px-4 py-2">
             <span className="text-sm">Wind Speed</span>
             <div className="flex items-center gap-2">
               <img className="w-6" src="./img/wind.svg" alt="wind" />
@@ -38,7 +40,7 @@ function App() {
               </div>
             </div>
           </article>
-          <article className="flex flex-col gap-2 p-2">
+          <article className="flex w-full flex-col gap-2 rounded-2xl bg-[#3b4770] px-4 py-2">
             <span className="text-sm">Humidity</span>
             <div className="flex items-center gap-2">
               <img className="w-6" src="./img/humidity.svg" alt="humidity" />
@@ -49,7 +51,7 @@ function App() {
             </div>
           </article>
         </section>
-        <section className="flex flex-col gap-2 p-2">
+        <section className="flex flex-col gap-2 rounded-2xl bg-[#3b4770] p-2">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <img className="w-6" src="./img/clock.svg" alt="clock" />
@@ -61,47 +63,171 @@ function App() {
             </div>
           </div>
           <div>
-            <ul className="flex items-center justify-evenly">
-              <li className="flex flex-col items-center">
-                <span>20:00</span>
-                <img className="w-6" src="./img/rain.svg" alt="rain" />
-                <span>3°</span>
-              </li>
-              <li className="flex flex-col items-center">
-                <span>20:00</span>
-                <img className="w-6" src="./img/rain.svg" alt="rain" />
-                <span>3°</span>
-              </li>
-              <li className="flex flex-col items-center">
-                <span>20:00</span>
-                <img className="w-6" src="./img/rain.svg" alt="rain" />
-                <span>3°</span>
-              </li>
-              <li className="flex flex-col items-center">
-                <span>20:00</span>
-                <img className="w-6" src="./img/rain.svg" alt="rain" />
-                <span>3°</span>
-              </li>
-            </ul>
-            <div className="text-center">CHART</div>
-            <ul className="flex items-center justify-evenly">
-              <li className="flex items-center">
-                <img className="w-6" src="./img/umbrella.svg" alt="umbrella" />
-                <span className="text-xs">70%</span>
-              </li>
-              <li className="flex items-center">
-                <img className="w-6" src="./img/umbrella.svg" alt="umbrella" />
-                <span className="text-xs">70%</span>
-              </li>
-              <li className="flex items-center">
-                <img className="w-6" src="./img/umbrella.svg" alt="umbrella" />
-                <span className="text-xs">70%</span>
-              </li>
-              <li className="flex items-center">
-                <img className="w-6" src="./img/umbrella.svg" alt="umbrella" />
-                <span className="text-xs">70%</span>
-              </li>
-            </ul>
+            <div className="w-full overflow-x-auto px-4">
+              {/* TODO: Find a way to align the Dots, weather, and rain vertically
+              https://chatgpt.com/c/674793dc-86dc-8007-a5b0-0a9d84d31bc1 */}
+              <ul className="">
+                <li className="flex flex-col items-center gap-2">
+                  <span>20:00</span>
+                  <img className="w-6" src="./img/rain.svg" alt="rain" />
+                  <span>3°</span>
+                </li>
+                <li className="flex flex-col items-center gap-2">
+                  <span>20:00</span>
+                  <img className="w-6" src="./img/rain.svg" alt="rain" />
+                  <span>3°</span>
+                </li>
+                <li className="flex flex-col items-center gap-2">
+                  <span>20:00</span>
+                  <img className="w-6" src="./img/rain.svg" alt="rain" />
+                  <span>3°</span>
+                </li>
+                <li className="flex flex-col items-center gap-2">
+                  <span>20:00</span>
+                  <img className="w-6" src="./img/rain.svg" alt="rain" />
+                  <span>3°</span>
+                </li>
+                <li className="flex flex-col items-center gap-2">
+                  <span>20:00</span>
+                  <img className="w-6" src="./img/rain.svg" alt="rain" />
+                  <span>3°</span>
+                </li>
+                <li className="flex flex-col items-center gap-2">
+                  <span>20:00</span>
+                  <img className="w-6" src="./img/rain.svg" alt="rain" />
+                  <span>3°</span>
+                </li>
+                <li className="flex flex-col items-center gap-2">
+                  <span>20:00</span>
+                  <img className="w-6" src="./img/rain.svg" alt="rain" />
+                  <span>3°</span>
+                </li>
+                <li className="flex flex-col items-center gap-2">
+                  <span>20:00</span>
+                  <img className="w-6" src="./img/rain.svg" alt="rain" />
+                  <span>3°</span>
+                </li>
+                <li className="flex flex-col items-center gap-2">
+                  <span>20:00</span>
+                  <img className="w-6" src="./img/rain.svg" alt="rain" />
+                  <span>3°</span>
+                </li>
+                <li className="flex flex-col items-center gap-2">
+                  <span>20:00</span>
+                  <img className="w-6" src="./img/rain.svg" alt="rain" />
+                  <span>3°</span>
+                </li>
+                <li className="flex flex-col items-center gap-2">
+                  <span>20:00</span>
+                  <img className="w-6" src="./img/rain.svg" alt="rain" />
+                  <span>3°</span>
+                </li>
+                <li className="flex flex-col items-center gap-2">
+                  <span>20:00</span>
+                  <img className="w-6" src="./img/rain.svg" alt="rain" />
+                  <span>3°</span>
+                </li>
+              </ul>
+              <ForecastChart />
+              <ul className="">
+                <li className="flex flex-col items-center">
+                  <img
+                    className="w-6"
+                    src="./img/umbrella.svg"
+                    alt="umbrella"
+                  />
+                  <span className="text-xs">70%</span>
+                </li>
+                <li className="flex flex-col items-center">
+                  <img
+                    className="w-6"
+                    src="./img/umbrella.svg"
+                    alt="umbrella"
+                  />
+                  <span className="text-xs">70%</span>
+                </li>
+                <li className="flex flex-col items-center">
+                  <img
+                    className="w-6"
+                    src="./img/umbrella.svg"
+                    alt="umbrella"
+                  />
+                  <span className="text-xs">70%</span>
+                </li>
+                <li className="flex flex-col items-center">
+                  <img
+                    className="w-6"
+                    src="./img/umbrella.svg"
+                    alt="umbrella"
+                  />
+                  <span className="text-xs">70%</span>
+                </li>
+                <li className="flex flex-col items-center">
+                  <img
+                    className="w-6"
+                    src="./img/umbrella.svg"
+                    alt="umbrella"
+                  />
+                  <span className="text-xs">70%</span>
+                </li>
+                <li className="flex flex-col items-center">
+                  <img
+                    className="w-6"
+                    src="./img/umbrella.svg"
+                    alt="umbrella"
+                  />
+                  <span className="text-xs">70%</span>
+                </li>
+                <li className="flex flex-col items-center">
+                  <img
+                    className="w-6"
+                    src="./img/umbrella.svg"
+                    alt="umbrella"
+                  />
+                  <span className="text-xs">70%</span>
+                </li>
+                <li className="flex flex-col items-center">
+                  <img
+                    className="w-6"
+                    src="./img/umbrella.svg"
+                    alt="umbrella"
+                  />
+                  <span className="text-xs">70%</span>
+                </li>
+                <li className="flex flex-col items-center">
+                  <img
+                    className="w-6"
+                    src="./img/umbrella.svg"
+                    alt="umbrella"
+                  />
+                  <span className="text-xs">70%</span>
+                </li>
+                <li className="flex flex-col items-center">
+                  <img
+                    className="w-6"
+                    src="./img/umbrella.svg"
+                    alt="umbrella"
+                  />
+                  <span className="text-xs">70%</span>
+                </li>
+                <li className="flex flex-col items-center">
+                  <img
+                    className="w-6"
+                    src="./img/umbrella.svg"
+                    alt="umbrella"
+                  />
+                  <span className="text-xs">70%</span>
+                </li>
+                <li className="flex flex-col items-center">
+                  <img
+                    className="w-6"
+                    src="./img/umbrella.svg"
+                    alt="umbrella"
+                  />
+                  <span className="text-xs">70%</span>
+                </li>
+              </ul>
+            </div>
           </div>
         </section>
         <section className="flex flex-col gap-2 p-2">
