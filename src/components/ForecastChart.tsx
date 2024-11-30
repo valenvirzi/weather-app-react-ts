@@ -11,37 +11,28 @@ import { options } from "../utils/chartConfiguration";
 import { dashedLinesPlugin, gradientShadowPlugin } from "../utils/chartPlugins"; // Import the shared plugins
 
 import ItemList from "./ItemList";
+import useForecast from "../hooks/useForecast";
+import { ForecastChartProps } from "../types/types";
 
 ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale);
 
-const ForecastChart: React.FC = () => {
+//TODO: aislar el funcionamiento del componente para que pueda tomar por prop la data que luego debe renderizar
+const ForecastChart: React.FC<ForecastChartProps> = ({ gapSize }) => {
   // TODO: I need to know what will come from the API (.json) and then store it in another file to import it later into the chart for rendering purposes and to get rid of "forecastData"
-  const forecastData = [
-    { time: "1 AM", temperature: -5 },
-    { time: "2 AM", temperature: -3 },
-    { time: "3 AM", temperature: 0 },
-    { time: "4 AM", temperature: 2 },
-    { time: "5 AM", temperature: 4 },
-    { time: "6 AM", temperature: -2 },
-    { time: "7 AM", temperature: 3 },
-    { time: "8 AM", temperature: 5 },
-    { time: "9 AM", temperature: 7 },
-    { time: "10 AM", temperature: 6 },
-    { time: "11 AM", temperature: 4 },
-    { time: "12 PM", temperature: 3 },
-  ];
+  const forecastData = useForecast();
 
-  const gapSize = 100;
-  const chartWidth = forecastData.length * gapSize;
+  const GAP_SIZE: number = gapSize;
+  const chartWidth = forecastData.forecastList.length * GAP_SIZE;
+
+  // TODO: Find the way to store this styling values into another file and import them from there, since it will always look the same no matter the type of chart.
 
   const data = {
-    labels: forecastData.map((item) => item.time), // Get time from forecastData
+    labels: forecastData.forecastList.map((item) => item.dt_txt), // Get time from forecastData
     datasets: [
       {
         label: "Temperature (°C)",
-        data: forecastData.map((item) => item.temperature), // Get temperature from forecastData
+        data: forecastData.forecastList.map((item) => item.main.temp), // Get temperature from forecastData
         borderColor: "#ffffff",
-        backgroundColor: "rgba(75,192,192,0.5)",
         pointBorderColor: "#ffffff",
         pointBorderWidth: 2,
         pointBackgroundColor: "#36abf8",
@@ -57,7 +48,7 @@ const ForecastChart: React.FC = () => {
 
   return (
     <div className="w-full overflow-x-auto">
-      <ItemList gapSize={gapSize} />
+      <ItemList gapSize={GAP_SIZE} />
       <div className="h-44 px-10" style={{ width: `${chartWidth}px` }}>
         <Line
           data={data}

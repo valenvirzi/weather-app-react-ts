@@ -63,7 +63,7 @@ function App() {
             </div>
           </div>
           <div>
-            <ForecastChart />
+            <ForecastChart gapSize={100} />
           </div>
         </section>
         <section className="flex flex-col gap-2 p-2">
