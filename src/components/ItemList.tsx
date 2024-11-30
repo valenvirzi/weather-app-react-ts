@@ -52,19 +52,19 @@ const ItemList: React.FC<ItemListProps> = ({ gapSize }) => {
   ];
 
   return (
-    <div
+    <ul
       className="flex justify-between px-6"
       style={{ width: `${(items.length - 1) * gapSize + 100}px` }} // Adjust the width dynamically
     >
-      {items.map((item, index) => (
-        <div
-          key={index}
-          className="w-12 rounded bg-gray-200 p-3 text-center text-xs"
-        >
-          {item}
-        </div>
+      {items.map((item) => (
+        <li key={item} className="flex flex-col items-center gap-1">
+          <span>Lunes</span>
+          <span className="text-xs">25/11</span>
+          <img className="w-6" src="./img/rain.svg" alt="rain" />
+          <span>3°</span>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 };
 

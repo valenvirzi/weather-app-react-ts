@@ -85,4 +85,8 @@ export type GeoCoordinates = {
 
 export type ForecastChartProps = {
   gapSize: number;
+  apiResponse: {
+    forecastList: ForecastItem[];
+    forecastCity: ForecastCity;
+  };
 };

@@ -1,6 +1,8 @@
 import ForecastChart from "./components/ForecastChart";
+import useForecast from "./hooks/useForecast";
 
 function App() {
+  const threeHoursForecastData = useForecast();
   return (
     <div className="flex flex-col">
       <header className="flex items-center justify-between p-2">
@@ -63,7 +65,7 @@ function App() {
             </div>
           </div>
           <div>
-            <ForecastChart gapSize={100} />
+            <ForecastChart gapSize={100} apiResponse={threeHoursForecastData} />
           </div>
         </section>
         <section className="flex flex-col gap-2 p-2">
