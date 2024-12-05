@@ -25,16 +25,20 @@ const ForecastChart: React.FC<ForecastChartProps> = ({
   const chartWidth = forecastData.forecastList.length * gapSize;
 
   return (
-    <div className="w-full overflow-x-auto">
-      <ItemList gapSize={gapSize} />
-      <div className="h-44 px-10" style={{ width: `${chartWidth}px` }}>
-        <Line
-          data={data(forecastData.forecastList)}
-          options={options}
-          height={300}
-          plugins={[dashedLinesPlugin, gradientShadowPlugin]}
-        />
-      </div>
+    <div className="w-full overflow-x-auto py-2">
+      {/* TODO: Add a State to change the unitSystem used and pass it as props to the ItemList component to render the proper unit and make the conversion.
+      Make the same functionality for the main temperature display (and any other place where temperature is used)
+      */}
+      <ItemList gapSize={gapSize} forecastData={forecastData.forecastList}>
+        <div className="mb-2 h-40 px-10" style={{ width: `${chartWidth}px` }}>
+          <Line
+            data={data(forecastData.forecastList)}
+            options={options}
+            height={300}
+            plugins={[dashedLinesPlugin, gradientShadowPlugin]}
+          />
+        </div>
+      </ItemList>
     </div>
   );
 };
