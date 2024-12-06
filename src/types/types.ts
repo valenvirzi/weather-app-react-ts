@@ -1,5 +1,5 @@
 // Root type for the API response
-export type ForecastResponse = {
+export type ForecastThreeHoursResponse = {
   cod: string; // Internal parameter
   message: number; // Internal parameter
   cnt: number; // Number of timestamps returned
@@ -57,7 +57,8 @@ export type WindData = {
 
 // Type for the `rain` and `snow` fields in `list`
 export type PrecipitationData = {
-  "3h": number; // Volume for last 3 hours, mm
+  "1h"?: number; // Volume for last 1 hour, mm
+  "3h"?: number; // Volume for last 3 hours, mm
 };
 
 // Type for the `sys` field in `list`
@@ -89,4 +90,31 @@ export type ForecastChartProps = {
     forecastList: ForecastItem[];
     forecastCity: ForecastCity;
   };
+  unit: "K" | "C" | "F";
 };
+
+export interface CurrentWeatherResponse {
+  coord: GeoCoordinates;
+  weather: WeatherCondition[];
+  base: string;
+  main: MainWeatherData;
+  visibility: number;
+  wind: WindData;
+  rain?: PrecipitationData;
+  snow?: PrecipitationData;
+  clouds: {
+    all: number;
+  };
+  dt: number;
+  sys: {
+    type?: number;
+    id?: number;
+    country: string;
+    sunrise: number;
+    sunset: number;
+  };
+  timezone: number;
+  id: number;
+  name: string;
+  cod: number;
+}

@@ -1,10 +1,59 @@
+import { useState } from "react";
+import CurrentWeatherDisplay from "./components/CurrentWeatherDisplay";
 import ForecastChart from "./components/ForecastChart";
+import useCurrentWeather from "./hooks/useCurrentWeather";
 import useForecast from "./hooks/useForecast";
 
 function App() {
+  const [unitSystem, setUnitSystem] = useState<"K" | "C" | "F">("K");
   const threeHoursForecastData = useForecast();
+  const currentWeatherData = useCurrentWeather();
+  // TODO: Make the ColorTheme depending on the current weather. https://openweathermap.org/weather-conditions
+  const [colorTheme, setColorTheme] = useState<string>(
+    currentWeatherData.weather[0].main,
+  );
+  const weather = [
+    "Rain",
+    "Thenderstorm",
+    "Drizzle",
+    "Clear",
+    "Clouds",
+    "Snow",
+  ];
+
+  switch (colorTheme) {
+    case "Rain":
+      break;
+    case "Thunderstorm":
+      break;
+    case "Drizzle":
+      break;
+    case "Snow":
+      break;
+    case "Clear":
+      break;
+    case "Clouds":
+      break;
+
+    default:
+  }
+
+  const handleSwitchUnit = () => {
+    if (unitSystem === "K") {
+      setUnitSystem("C");
+    } else if (unitSystem === "C") {
+      setUnitSystem("F");
+    } else {
+      setUnitSystem("K");
+    }
+  };
+  {
+    /* TODO: Make the BackgroundImage and ColorTheme change depending on the current weather forecast */
+  }
   return (
-    <div className="flex flex-col">
+    <div
+      className={`flex min-h-screen flex-col gap-4 bg-cover ${currentWeatherData.weather[0].main === "Rain" ? "bg-[url('https://images.unsplash.com/photo-1501691223387-dd0500403074?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cmFpbnxlbnwwfHwwfHx8MA%3D%3D')]" : ""}`}
+    >
       <header className="flex items-center justify-between p-2">
         <button className="flex items-center gap-2" type="button">
           <img className="w-6" src="./img/location.svg" alt="location icon" />
@@ -14,45 +63,16 @@ function App() {
           <button type="button">
             <img className="w-6" src="./img/search.svg" alt="search icon" />
           </button>
-          <button type="button">
+          <button type="button" onPointerDown={handleSwitchUnit}>
             <img className="w-6" src="./img/options.svg" alt="options icon" />
           </button>
         </div>
       </header>
-      <main className="flex flex-col gap-4 px-3">
-        <section className="flex flex-col items-center gap-2">
-          <div className="flex">
-            <h2 className="text-6xl">5</h2>
-            <span className="font-semibold">°C</span>
-          </div>
-          <h2 className="text-xl">Moderate Rain</h2>
-          <div className="flex flex-col items-center text-sm">
-            <span>19:12</span>
-            <span>Tuesday, 7 de Nov. 2024</span>
-          </div>
-        </section>
-        <section className="flex items-center justify-between gap-4">
-          <article className="flex w-full flex-col gap-2 rounded-2xl bg-[#3b4770] px-4 py-2">
-            <span className="text-sm">Wind Speed</span>
-            <div className="flex items-center gap-2">
-              <img className="w-6" src="./img/wind.svg" alt="wind" />
-              <div className="flex items-center font-semibold">
-                <span>8,4</span>
-                <span>Km/h</span>
-              </div>
-            </div>
-          </article>
-          <article className="flex w-full flex-col gap-2 rounded-2xl bg-[#3b4770] px-4 py-2">
-            <span className="text-sm">Humidity</span>
-            <div className="flex items-center gap-2">
-              <img className="w-6" src="./img/humidity.svg" alt="humidity" />
-              <div className="flex items-center font-semibold">
-                <span>70</span>
-                <span>%</span>
-              </div>
-            </div>
-          </article>
-        </section>
+      <main className="flex flex-col gap-8 px-3">
+        <CurrentWeatherDisplay
+          currentWeatherData={currentWeatherData}
+          unit={unitSystem}
+        />
         <section className="flex flex-col gap-2 rounded-2xl bg-[#3b4770] p-2">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -65,66 +85,11 @@ function App() {
             </div>
           </div>
           <div>
-            <ForecastChart gapSize={100} apiResponse={threeHoursForecastData} />
-          </div>
-        </section>
-        <section className="flex flex-col gap-2 p-2">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <img className="w-6" src="./img/calendar.svg" alt="calendar" />
-              <h3 className="font-semibold">Pronóstico Diario</h3>
-            </div>
-            <div className="flex items-center gap-1">
-              <span>5</span>
-              <span>days {">"}</span>
-            </div>
-          </div>
-          <div>
-            <ul className="flex items-center justify-evenly">
-              <li className="flex flex-col items-center gap-1">
-                <span>Lunes</span>
-                <span className="text-xs">25/11</span>
-                <img className="w-6" src="./img/rain.svg" alt="rain" />
-                <span>3°</span>
-              </li>
-              <li className="flex flex-col items-center gap-1">
-                <span>Lunes</span>
-                <span className="text-xs">25/11</span>
-                <img className="w-6" src="./img/rain.svg" alt="rain" />
-                <span>3°</span>
-              </li>
-              <li className="flex flex-col items-center gap-1">
-                <span>Lunes</span>
-                <span className="text-xs">25/11</span>
-                <img className="w-6" src="./img/rain.svg" alt="rain" />
-                <span>3°</span>
-              </li>
-              <li className="flex flex-col items-center gap-1">
-                <span>Lunes</span>
-                <span className="text-xs">25/11</span>
-                <img className="w-6" src="./img/rain.svg" alt="rain" />
-                <span>3°</span>
-              </li>
-            </ul>
-            <div className="text-center">CHART</div>
-            <ul className="flex items-center justify-evenly">
-              <li className="flex items-center">
-                <img className="w-6" src="./img/umbrella.svg" alt="umbrella" />
-                <span className="text-xs">70%</span>
-              </li>
-              <li className="flex items-center">
-                <img className="w-6" src="./img/umbrella.svg" alt="umbrella" />
-                <span className="text-xs">70%</span>
-              </li>
-              <li className="flex items-center">
-                <img className="w-6" src="./img/umbrella.svg" alt="umbrella" />
-                <span className="text-xs">70%</span>
-              </li>
-              <li className="flex items-center">
-                <img className="w-6" src="./img/umbrella.svg" alt="umbrella" />
-                <span className="text-xs">70%</span>
-              </li>
-            </ul>
+            <ForecastChart
+              gapSize={100}
+              apiResponse={threeHoursForecastData}
+              unit={unitSystem}
+            />
           </div>
         </section>
       </main>

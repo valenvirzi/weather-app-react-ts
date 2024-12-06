@@ -1,9 +1,13 @@
 import forecastResponse from "../mocks/response.json";
-import { ForecastResponse, ForecastItem, ForecastCity } from "../types/types";
+import {
+  ForecastThreeHoursResponse,
+  ForecastItem,
+  ForecastCity,
+} from "../types/types";
 
 const useForecast = () => {
   // Type the forecast response correctly
-  const forecastResult: ForecastResponse = forecastResponse;
+  const forecastResult: ForecastThreeHoursResponse = forecastResponse;
 
   // Destructure the relevant parts of the API response
   const { city, list } = forecastResult;
