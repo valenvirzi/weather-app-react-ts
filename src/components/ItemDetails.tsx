@@ -15,7 +15,7 @@ const ItemDetails: React.FC<ItemDetailsProps> = ({ item, unit }) => {
   };
   const formattedDate = formatDateToDayMonth(item.dt_txt);
   return (
-    <li key={item.dt} className="group flex max-w-14 flex-col items-center">
+    <li key={item.dt} className="group flex max-w-10 flex-col items-center">
       <span className="text-xs">{formattedDate}</span>
       <span>{item.dt_txt.slice(11, 16)}</span>
       <img

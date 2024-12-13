@@ -8,7 +8,19 @@ function App() {
   const [unitSystem, setUnitSystem] = useState<"K" | "C" | "F">("K");
   const threeHoursForecastData = useForecast();
   const currentWeatherData = useCurrentWeather();
-  // TODO: Make the ColorTheme depending on the current weather. https://openweathermap.org/weather-conditions
+  // TODO: Make the ColorTheme change depending on the current weather. https://openweathermap.org/weather-conditions
+  // TODO: Place a filter on top of the background image that corresponds to the current ColorTheme.
+  // TODO: Make the user be able to select the location where the forecast will get the data from.
+  {
+    /* TODO: Set a proper "Options/Settings" menu for changing: 
+    - Temperature measure unit (K, C, F).
+    - Speed measure unit (Km/h, M/h, etc.).
+    - Dark/Light Mode.
+    - Language.
+    */
+  }
+  // TODO: Remove/Find a better use for the selection of the timespan of the forecast, because it makes no sense for it to be shorter, nobody would choose to have less info than the available, in any case they will just choose not to watch it, but still have it displayed anyways.
+  // TODO: Make the Desktop design on the app.
   const [colorTheme, setColorTheme] = useState<string>(
     currentWeatherData.weather[0].main,
   );
