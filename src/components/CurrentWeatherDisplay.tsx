@@ -6,11 +6,13 @@ import { CurrentWeatherResponse } from "../types/types";
 interface CurrentWeatherDisplayProps {
   currentWeatherData: CurrentWeatherResponse;
   unit: "K" | "C" | "F";
+  theme: { color: string; backgroundImage: string };
 }
 
 const CurrentWeatherDisplay: React.FC<CurrentWeatherDisplayProps> = ({
   currentWeatherData,
   unit,
+  theme,
 }) => {
   const convertedTemp = useTemperatureConversion(
     currentWeatherData.main.temp,
@@ -26,7 +28,7 @@ const CurrentWeatherDisplay: React.FC<CurrentWeatherDisplayProps> = ({
       <section className="flex flex-col items-center gap-4">
         <div className="flex">
           <h2 className="text-6xl">{convertedTemp}</h2>
-          <span className="font-semibold">°{unit}</span>
+          <span className="">°{unit}</span>
         </div>
         <h2 className="text-xl">{formattedDescription}</h2>
         <div className="flex flex-col items-center gap-1 text-sm">
@@ -35,21 +37,27 @@ const CurrentWeatherDisplay: React.FC<CurrentWeatherDisplayProps> = ({
         </div>
       </section>
       <section className="flex items-center justify-between gap-4">
-        <article className="flex w-full flex-col gap-2 rounded-2xl bg-[#3b4770] px-4 py-2">
+        <article
+          className={`flex w-full flex-col gap-2 rounded-2xl px-4 py-2`}
+          style={{ backgroundColor: `${theme.color}` }}
+        >
           <span className="text-sm">Wind Speed</span>
           <div className="flex items-center gap-2">
             <img className="w-6" src="./img/wind.svg" alt="wind" />
-            <div className="flex items-center gap-1 font-semibold">
+            <div className="flex items-center gap-1">
               <span>{(currentWeatherData.wind.speed * 3.6).toFixed(1)}</span>
               <span>Km/h</span>
             </div>
           </div>
         </article>
-        <article className="flex w-full flex-col gap-2 rounded-2xl bg-[#3b4770] px-4 py-2">
+        <article
+          className={`flex w-full flex-col gap-2 rounded-2xl px-4 py-2`}
+          style={{ backgroundColor: `${theme.color}` }}
+        >
           <span className="text-sm">Humidity</span>
           <div className="flex items-center gap-2">
             <img className="w-6" src="./img/humidity.svg" alt="humidity" />
-            <div className="flex items-center font-semibold">
+            <div className="flex items-center">
               <span>{currentWeatherData.main.humidity}</span>
               <span>%</span>
             </div>

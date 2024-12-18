@@ -15,7 +15,6 @@ import { ForecastChartProps } from "../types/types";
 
 ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale);
 
-//TODO: Aislar el funcionamiento del componente para que pueda tomar por prop la data que luego debe renderizar, para poder utilizar este mismo componente para el Pronóstico Diario y el Pronóstico cada 3 Horas.
 const ForecastChart: React.FC<ForecastChartProps> = ({
   gapSize,
   apiResponse,
@@ -27,9 +26,6 @@ const ForecastChart: React.FC<ForecastChartProps> = ({
 
   return (
     <div className="w-full overflow-x-auto py-2">
-      {/* TODO: Add a State to change the unitSystem used and pass it as props to the ItemList component to render the proper unit and make the conversion.
-      Make the same functionality for the main temperature display (and any other place where temperature is used)
-      */}
       <ForecastDetails
         gapSize={gapSize}
         forecastData={forecastData.forecastList}

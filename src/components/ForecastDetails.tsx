@@ -7,12 +7,7 @@ interface ForecastDetailsProps {
   forecastData: ForecastItem[];
   children: React.ReactNode;
   unit: "K" | "C" | "F";
-
-  // https://chatgpt.com/c/675227a4-3014-8007-a353-5d9006b067c6
 }
-
-// TODO: ForecastDetails works as intended, but now it needs to render the proper info depending if it is on top of the chart or below, so that it renders the img (depending on the weather)
-// Change ForecastDetails name to something that fits better with its function on the app.
 
 const ForecastDetails: React.FC<ForecastDetailsProps> = ({
   gapSize,

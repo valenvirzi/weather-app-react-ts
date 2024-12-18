@@ -23,9 +23,8 @@ const ItemDetails: React.FC<ItemDetailsProps> = ({ item, unit }) => {
         src={`https://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`}
         alt="rain"
       />
-      <span className="rounded p-1 px-2 font-semibold group-first:bg-[#36abf8]">
+      <span className="rounded p-1 px-2 group-first:bg-[#36abf8]">
         {convetedTemp}°{unit}
-        {/* TODO: Make the conversion to diferent units of measure and be able to change it from the settings */}
       </span>
     </li>
   );

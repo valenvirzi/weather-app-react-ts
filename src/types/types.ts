@@ -118,3 +118,13 @@ export interface CurrentWeatherResponse {
   name: string;
   cod: number;
 }
+
+export type CityData = {
+  name: string;
+  latitude: number;
+  longitude: number;
+  country: string;
+  state: string;
+};
+
+export type GeocodingResponse = CityData[];

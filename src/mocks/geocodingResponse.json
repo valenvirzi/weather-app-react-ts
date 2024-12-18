@@ -1,0 +1,37 @@
+[
+  {
+    "name": "London",
+    "latitude": 51.5073219,
+    "longitude": -0.1276474,
+    "country": "GB",
+    "state": "England"
+  },
+  {
+    "name": "City of London",
+    "latitude": 51.5156177,
+    "longitude": -0.0919983,
+    "country": "GB",
+    "state": "England"
+  },
+  {
+    "name": "London",
+    "latitude": 42.9832406,
+    "longitude": -81.243372,
+    "country": "CA",
+    "state": "Ontario"
+  },
+  {
+    "name": "Chelsea",
+    "latitude": 51.4875167,
+    "longitude": -0.1687007,
+    "country": "GB",
+    "state": "England"
+  },
+  {
+    "name": "London",
+    "latitude": 37.1289771,
+    "longitude": -84.0832646,
+    "country": "US",
+    "state": "Kentucky"
+  }
+]
