@@ -6,12 +6,14 @@ import useForecast from "./hooks/useForecast";
 
 function App() {
   const [unitSystem, setUnitSystem] = useState<"K" | "C" | "F">("K");
+  // TODO: Make the unitSystem come from the LocalStorage if the user already chose one and make it be Kelvin otherwise.
   const threeHoursForecastData = useForecast();
   const currentWeatherData = useCurrentWeather();
   const bgImage =
     "https://images.unsplash.com/photo-1501691223387-dd0500403074?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cmFpbnxlbnwwfHwwfHx8MA%3D%3D";
   // TODO: Make the BackgroundImage change depending on the current weather, by setting the URL on the tailwind.config file and changing the className dynamically according to the weather. https://openweathermap.org/weather-conditions
   // TODO: Make the user be able to select the location where the forecast will get the data from. https://www.api-ninjas.com/api/geocoding
+  // TODO: Use the Geocoding API to get the Latitude and Longitude of the city that the user wants to get the forecast of. That will requiere
   {
     /* TODO: Set a proper "Options/Settings" menu for changing: 
     - Temperature measure unit (K, C, F).
@@ -20,6 +22,7 @@ function App() {
     - Language.
     */
   }
+  // TODO: Export everything that can be exported to clean the code and separate it depending on its functionality.
   // TODO: Remove/Find a better use for the selection of the timespan of the forecast, because it makes no sense for it to be shorter, nobody would choose to have less info than the available, in any case they will just choose not to watch it, but still have it displayed anyways.
   // TODO: Make the Desktop design on the app.
   const [theme, setTheme] = useState<{
