@@ -4,14 +4,14 @@ export default {
   theme: {
     extend: {
       // TODO: Set the correct url for each theme to be able to use them as dynamic classes.
-      backgroundImage: {
-        rain: "url('/images/rain.jpg')",
-        thunderstorm: "url('/images/thunderstorm.jpg')",
-        drizzle: "url('/images/drizzle.jpg')",
-        clear: "url('/images/clear.jpg')",
-        clouds: "url('/images/clouds.jpg')",
-        snow: "url('/images/snow.jpg')",
-      },
+      // backgroundImage: {
+      //   rain: "url('/images/rain.jpg')",
+      //   thunderstorm: "url('/images/thunderstorm.jpg')",
+      //   drizzle: "url('/images/drizzle.jpg')",
+      //   clear: "url('/images/clear.jpg')",
+      //   clouds: "url('/images/clouds.jpg')",
+      //   snow: "url('/images/snow.jpg')",
+      // },
     },
     screens: {
       sm: "320px",

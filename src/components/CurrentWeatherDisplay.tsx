@@ -38,7 +38,7 @@ const CurrentWeatherDisplay: React.FC<CurrentWeatherDisplayProps> = ({
       </section>
       <section className="flex items-center justify-between gap-4">
         <article
-          className={`flex w-full flex-col gap-2 rounded-2xl px-4 py-2`}
+          className={`flex w-full flex-col gap-2 rounded-lg px-4 py-2`}
           style={{ backgroundColor: `${theme.color}` }}
         >
           <span className="text-sm">Wind Speed</span>
@@ -51,7 +51,7 @@ const CurrentWeatherDisplay: React.FC<CurrentWeatherDisplayProps> = ({
           </div>
         </article>
         <article
-          className={`flex w-full flex-col gap-2 rounded-2xl px-4 py-2`}
+          className={`flex w-full flex-col gap-2 rounded-lg px-4 py-2`}
           style={{ backgroundColor: `${theme.color}` }}
         >
           <span className="text-sm">Humidity</span>
