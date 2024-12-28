@@ -7,12 +7,25 @@ import LocationSearchDisplay from "./components/LocationSearchDisplay";
 import useGeocoding from "./hooks/useGeocoding";
 
 function App() {
+  const geocodingApiKey = "heRF6kJUGfGXsgT7lpj2sA==DAabcgoiFqoC7lK5";
+  const weatherApiKey = "19460d6e8004c61debf07d5ca332ee8d";
+  const [currentCityName, setCurrentCityName] = useState<string>("");
   const [unitSystem, setUnitSystem] = useState<"K" | "C" | "F">("K");
   // TODO: Make the unitSystem come from the LocalStorage if the user already chose one and make it be Kelvin otherwise.
-  const [DisplaySearch, setDisplaySearch] = useState<boolean>(false);
+  const [displaySearch, setDisplaySearch] = useState<boolean>(false);
   const threeHoursForecastData = useForecast();
-  const currentWeatherData = useCurrentWeather();
-  const geocodingData = useGeocoding();
+  const {
+    currentWeather: currentWeatherData,
+    loading: currentWeatherLoading,
+    error: currentWeatherError,
+    fetchCurrentWeather,
+  } = useCurrentWeather(weatherApiKey);
+  const {
+    cityList,
+    loading: citiesLoading,
+    error: citiesError,
+    fetchCityList,
+  } = useGeocoding(geocodingApiKey);
 
   // TODO: Make the user be able to select the location where the forecast will get the data from. https://www.api-ninjas.com/api/geocoding
   // TODO: Use the Geocoding API to get the Latitude and Longitude of the city that the user wants to get the forecast of. That will requiere
@@ -112,16 +125,16 @@ function App() {
           <button
             className="flex items-center gap-2"
             type="button"
-            onPointerDown={() => setDisplaySearch(!DisplaySearch)}
+            onPointerDown={() => setDisplaySearch(!displaySearch)}
           >
             <img className="w-6" src="./img/location.svg" alt="location icon" />
-            <span>Ituzaingó</span>
+            <span>{currentCityName}</span>
           </button>
-          {!DisplaySearch ? (
+          {!displaySearch ? (
             <div className="flex items-center gap-4">
               <button
                 type="button"
-                onPointerDown={() => setDisplaySearch(!DisplaySearch)}
+                onPointerDown={() => setDisplaySearch(!displaySearch)}
               >
                 <img className="w-6" src="./img/search.svg" alt="search icon" />
               </button>
@@ -136,21 +149,30 @@ function App() {
           ) : (
             <button
               type="button"
-              onPointerDown={() => setDisplaySearch(!DisplaySearch)}
+              onPointerDown={() => setDisplaySearch(!displaySearch)}
             >
               <img className="w-6" src="./img/close.svg" alt="close icon" />
             </button>
           )}
         </header>
-        {DisplaySearch ? (
-          <LocationSearchDisplay geocodingData={geocodingData} />
+        {displaySearch ? (
+          <LocationSearchDisplay
+            cities={cityList}
+            citiesLoading={citiesLoading}
+            citiesError={citiesError}
+            fetchCityList={fetchCityList}
+            fetchWeather={fetchCurrentWeather}
+            setCurrentCityName={setCurrentCityName}
+          />
         ) : (
           <></>
         )}
-        {!DisplaySearch ? (
+        {!displaySearch ? (
           <main className="flex min-h-[1000px] flex-col gap-8 px-3">
             <CurrentWeatherDisplay
               currentWeatherData={currentWeatherData}
+              currentWeatherLoading={currentWeatherLoading}
+              currentWeatherError={currentWeatherError}
               theme={theme}
               unit={unitSystem}
             />

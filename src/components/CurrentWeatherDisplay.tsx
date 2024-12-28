@@ -4,7 +4,9 @@ import useFormatDate from "../hooks/useFormatDate";
 import { CurrentWeatherResponse } from "../types/types";
 
 interface CurrentWeatherDisplayProps {
-  currentWeatherData: CurrentWeatherResponse;
+  currentWeatherData: CurrentWeatherResponse | null;
+  currentWeatherLoading: boolean;
+  currentWeatherError: string | null;
   unit: "K" | "C" | "F";
   theme: { color: string; backgroundImage: string };
 }
@@ -15,13 +17,13 @@ const CurrentWeatherDisplay: React.FC<CurrentWeatherDisplayProps> = ({
   theme,
 }) => {
   const convertedTemp = useTemperatureConversion(
-    currentWeatherData.main.temp,
+    currentWeatherData?.main.temp ?? 0,
     unit,
   );
 
-  const formattedDate = useFormatDate(currentWeatherData.dt);
+  const formattedDate = useFormatDate(currentWeatherData?.dt ?? Date.now());
   const formattedDescription = useCapitalizeWords(
-    currentWeatherData.weather[0].description,
+    currentWeatherData?.weather[0].description ?? "",
   );
   return (
     <>
@@ -32,8 +34,8 @@ const CurrentWeatherDisplay: React.FC<CurrentWeatherDisplayProps> = ({
         </div>
         <h2 className="text-xl">{formattedDescription}</h2>
         <div className="flex flex-col items-center gap-1 text-sm">
-          <span>{formattedDate.slice(28)}</span>
-          <span>{formattedDate.slice(0, 24)}</span>
+          <span>{formattedDate.split(" ").slice(-2).join(" ")}</span>
+          <span>{formattedDate.slice(0, -12)}</span>
         </div>
       </section>
       <section className="flex items-center justify-between gap-4">
@@ -45,7 +47,9 @@ const CurrentWeatherDisplay: React.FC<CurrentWeatherDisplayProps> = ({
           <div className="flex items-center gap-2">
             <img className="w-6" src="./img/wind.svg" alt="wind" />
             <div className="flex items-center gap-1">
-              <span>{(currentWeatherData.wind.speed * 3.6).toFixed(1)}</span>
+              <span>
+                {(currentWeatherData?.wind.speed ?? 0 * 3.6).toFixed(1)}
+              </span>
               <span>Km/h</span>
             </div>
           </div>
@@ -58,7 +62,7 @@ const CurrentWeatherDisplay: React.FC<CurrentWeatherDisplayProps> = ({
           <div className="flex items-center gap-2">
             <img className="w-6" src="./img/humidity.svg" alt="humidity" />
             <div className="flex items-center">
-              <span>{currentWeatherData.main.humidity}</span>
+              <span>{currentWeatherData?.main.humidity ?? 0}</span>
               <span>%</span>
             </div>
           </div>
