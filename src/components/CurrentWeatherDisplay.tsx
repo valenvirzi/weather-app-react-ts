@@ -18,12 +18,18 @@ const CurrentWeatherDisplay: React.FC<CurrentWeatherDisplayProps> = ({
   unit,
   theme,
 }) => {
-  const convertedTemp = useTemperatureConversion(
-    currentWeatherData?.main.temp ?? 0,
-    unit,
-  );
+  const tempValue = currentWeatherData?.main.temp ?? 0;
+  const convertedTemp = useTemperatureConversion(tempValue, unit);
+  const tempDisplay = currentWeatherError
+    ? currentWeatherError
+    : currentWeatherLoading
+      ? "Loading..."
+      : isNaN(Number(tempValue)) || tempValue === 0
+        ? "No Data"
+        : convertedTemp;
 
-  const formattedDate = useFormatDate(Date.now());
+  const dateValue = currentWeatherData?.dt ?? Date.now();
+  const formattedDate = useFormatDate(dateValue);
   const formattedDescription = useCapitalizeWords(
     currentWeatherData?.weather[0].description ?? "",
   );
@@ -33,10 +39,9 @@ const CurrentWeatherDisplay: React.FC<CurrentWeatherDisplayProps> = ({
         <div className="flex">
           <h2 className="text-6xl">
             {/* TODO: Fix this so it first checks if there is current data available, and show "NO DATA" if that was the case, and then check if it's loading the data to show "Loading..." in that other case, otherwise (aka if the data is available and the data is not loading), show the data. */}
-            {currentWeatherLoading ? "Loading..." : convertedTemp}
-            {Number(convertedTemp) ? convertedTemp : "NO DATA"}
+            {tempDisplay}
           </h2>
-          <span className="">{Number(convertedTemp) ? `°${unit}` : ""}</span>
+          <span className="">{tempValue ? `°${unit}` : ""}</span>
         </div>
         <h2 className="text-xl">{formattedDescription}</h2>
         <div className="flex flex-col items-center gap-1 text-sm">
