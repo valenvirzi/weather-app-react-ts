@@ -163,6 +163,7 @@ function App() {
             fetchCityList={fetchCityList}
             fetchWeather={fetchCurrentWeather}
             setCurrentCityName={setCurrentCityName}
+            setDisplaySearch={setDisplaySearch}
           />
         ) : (
           <></>

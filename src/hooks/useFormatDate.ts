@@ -1,5 +1,6 @@
 const useFormatDate = (dt: number): string => {
-  const date = new Date(dt * 1000); // Multiply by 1000 to convert seconds to milliseconds
+  // Check if dt is in milliseconds or seconds
+  const date = new Date(dt < 10000000000 ? dt * 1000 : dt);
   return date.toLocaleDateString("en-US", {
     weekday: "long",
     year: "numeric",

@@ -13,6 +13,8 @@ interface CurrentWeatherDisplayProps {
 
 const CurrentWeatherDisplay: React.FC<CurrentWeatherDisplayProps> = ({
   currentWeatherData,
+  currentWeatherLoading,
+  currentWeatherError,
   unit,
   theme,
 }) => {
@@ -21,7 +23,7 @@ const CurrentWeatherDisplay: React.FC<CurrentWeatherDisplayProps> = ({
     unit,
   );
 
-  const formattedDate = useFormatDate(currentWeatherData?.dt ?? Date.now());
+  const formattedDate = useFormatDate(Date.now());
   const formattedDescription = useCapitalizeWords(
     currentWeatherData?.weather[0].description ?? "",
   );
@@ -29,8 +31,12 @@ const CurrentWeatherDisplay: React.FC<CurrentWeatherDisplayProps> = ({
     <>
       <section className="flex flex-col items-center gap-4">
         <div className="flex">
-          <h2 className="text-6xl">{convertedTemp}</h2>
-          <span className="">°{unit}</span>
+          <h2 className="text-6xl">
+            {/* TODO: Fix this so it first checks if there is current data available, and show "NO DATA" if that was the case, and then check if it's loading the data to show "Loading..." in that other case, otherwise (aka if the data is available and the data is not loading), show the data. */}
+            {currentWeatherLoading ? "Loading..." : convertedTemp}
+            {Number(convertedTemp) ? convertedTemp : "NO DATA"}
+          </h2>
+          <span className="">{Number(convertedTemp) ? `°${unit}` : ""}</span>
         </div>
         <h2 className="text-xl">{formattedDescription}</h2>
         <div className="flex flex-col items-center gap-1 text-sm">
