@@ -22,8 +22,6 @@ const ForecastChart: React.FC<ForecastChartProps> = ({
   forecastError,
   unit,
 }) => {
-  // TODO: I need to know what will come from the API (.json) and then store it in another file to import it later into the chart for rendering purposes and to get rid of "forecastData"
-  // TODO: Fix Error: Unexpected token '<', "<!doctype "... is not valid JSON.
   const chartWidth = forecastData.forecastList.length * gapSize;
   const forecastDisplay = forecastError ? (
     <p className="text-red-800">{forecastError}</p>

@@ -21,12 +21,10 @@ const CitySelectorItem: React.FC<CitySelectorItemProps> = ({
       onPointerDown={() => {
         fetchCurrentWeather({ lat: city.latitude, lon: city.longitude });
         fetchForecast({ lat: city.latitude, lon: city.longitude });
-        // console.log(fetchForecast({ lat: -34.6583293, lon: -58.6671441 }));
         setCurrentCityName(city.name);
         setDisplaySearch(false);
       }}
       className="flex w-full flex-col gap-1 bg-black bg-opacity-75 px-4 py-2"
-      // TODO: Hacer que la funcion devuelva las coordenadas de la ciudad seleccionada para utilizarlas en la api del clima.
     >
       <h3 className="font-semibold">{city.name}</h3>
       <p className="text-sm opacity-75">

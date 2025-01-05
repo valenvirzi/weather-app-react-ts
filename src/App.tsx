@@ -12,6 +12,7 @@ function App() {
   const [currentCityName, setCurrentCityName] = useState<string>("");
   const [unitSystem, setUnitSystem] = useState<"K" | "C" | "F">("K");
   // TODO: Make the unitSystem come from the LocalStorage if the user already chose one and make it be Kelvin otherwise.
+  // TODO: Do the same for the latest fetched city info and forecast. Also with the favorite cities of the user.
   const [displaySearch, setDisplaySearch] = useState<boolean>(false);
   const {
     forecastData,
@@ -33,8 +34,6 @@ function App() {
     fetchCityList,
   } = useGeocoding(geocodingApiKey);
 
-  // TODO: Make the user be able to select the location where the forecast will get the data from. https://www.api-ninjas.com/api/geocoding
-  // TODO: Use the Geocoding API to get the Latitude and Longitude of the city that the user wants to get the forecast of. That will requiere
   {
     /* TODO: Set a proper "Options/Settings" menu for changing: 
     - Temperature measure unit (K, C, F).
