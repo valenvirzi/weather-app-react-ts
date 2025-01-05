@@ -17,31 +17,38 @@ ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale);
 
 const ForecastChart: React.FC<ForecastChartProps> = ({
   gapSize,
-  apiResponse,
+  forecastData,
+  forecastLoading,
+  forecastError,
   unit,
 }) => {
   // TODO: I need to know what will come from the API (.json) and then store it in another file to import it later into the chart for rendering purposes and to get rid of "forecastData"
-  const forecastData = apiResponse;
+  // TODO: Fix Error: Unexpected token '<', "<!doctype "... is not valid JSON.
   const chartWidth = forecastData.forecastList.length * gapSize;
-
-  return (
-    <div className="w-full overflow-x-auto py-2">
-      <ForecastDetails
-        gapSize={gapSize}
-        forecastData={forecastData.forecastList}
-        unit={unit}
-      >
-        <div className="mb-2 h-40 px-10" style={{ width: `${chartWidth}px` }}>
-          <Line
-            data={data(forecastData.forecastList)}
-            options={options}
-            height={300}
-            plugins={[dashedLinesPlugin, gradientShadowPlugin]}
-          />
-        </div>
-      </ForecastDetails>
-    </div>
+  const forecastDisplay = forecastError ? (
+    <p className="text-red-800">{forecastError}</p>
+  ) : forecastLoading ? (
+    <img className="w-10 animate-spin" src="./img/loading.svg" />
+  ) : forecastData.forecastList.length ? (
+    <ForecastDetails
+      gapSize={gapSize}
+      forecastData={forecastData.forecastList}
+      unit={unit}
+    >
+      <div className="mb-2 h-40 px-10" style={{ width: `${chartWidth}px` }}>
+        <Line
+          data={data(forecastData.forecastList)}
+          options={options}
+          height={300}
+          plugins={[dashedLinesPlugin, gradientShadowPlugin]}
+        />
+      </div>
+    </ForecastDetails>
+  ) : (
+    <h3 className="mx-auto inline-block text-2xl text-white">No Data</h3>
   );
+
+  return <div className="w-full overflow-x-auto py-2">{forecastDisplay}</div>;
 };
 
 export default ForecastChart;

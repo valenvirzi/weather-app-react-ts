@@ -86,10 +86,12 @@ export type GeoCoordinates = {
 
 export type ForecastChartProps = {
   gapSize: number;
-  apiResponse: {
+  forecastData: {
+    forecastCity: ForecastCity | undefined;
     forecastList: ForecastItem[];
-    forecastCity: ForecastCity;
   };
+  forecastLoading: boolean;
+  forecastError: string | null;
   unit: "K" | "C" | "F";
 };
 

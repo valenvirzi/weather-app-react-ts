@@ -37,10 +37,7 @@ const CurrentWeatherDisplay: React.FC<CurrentWeatherDisplayProps> = ({
     <>
       <section className="flex flex-col items-center gap-4">
         <div className="flex">
-          <h2 className="text-6xl">
-            {/* TODO: Fix this so it first checks if there is current data available, and show "NO DATA" if that was the case, and then check if it's loading the data to show "Loading..." in that other case, otherwise (aka if the data is available and the data is not loading), show the data. */}
-            {tempDisplay}
-          </h2>
+          <h2 className="text-6xl">{tempDisplay}</h2>
           <span className="">{tempValue ? `°${unit}` : ""}</span>
         </div>
         <h2 className="text-xl">{formattedDescription}</h2>

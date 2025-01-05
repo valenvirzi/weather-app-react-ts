@@ -13,7 +13,13 @@ function App() {
   const [unitSystem, setUnitSystem] = useState<"K" | "C" | "F">("K");
   // TODO: Make the unitSystem come from the LocalStorage if the user already chose one and make it be Kelvin otherwise.
   const [displaySearch, setDisplaySearch] = useState<boolean>(false);
-  const threeHoursForecastData = useForecast();
+  const {
+    forecastData,
+    loading: forecastLoading,
+    error: forecastError,
+    fetchForecast,
+  } = useForecast(weatherApiKey);
+
   const {
     currentWeather: currentWeatherData,
     loading: currentWeatherLoading,
@@ -161,7 +167,8 @@ function App() {
             citiesLoading={citiesLoading}
             citiesError={citiesError}
             fetchCityList={fetchCityList}
-            fetchWeather={fetchCurrentWeather}
+            fetchCurrentWeather={fetchCurrentWeather}
+            fetchForecast={fetchForecast}
             setCurrentCityName={setCurrentCityName}
             setDisplaySearch={setDisplaySearch}
           />
@@ -194,7 +201,9 @@ function App() {
               <div>
                 <ForecastChart
                   gapSize={100}
-                  apiResponse={threeHoursForecastData}
+                  forecastData={forecastData}
+                  forecastError={forecastError}
+                  forecastLoading={forecastLoading}
                   unit={unitSystem}
                 />
               </div>

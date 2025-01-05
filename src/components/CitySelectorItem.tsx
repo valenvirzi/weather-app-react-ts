@@ -2,14 +2,16 @@ import { CityData, GeoCoordinates } from "../types/types";
 
 interface CitySelectorItemProps {
   city: CityData;
-  fetchWeather: ({ lat, lon }: GeoCoordinates) => void;
+  fetchCurrentWeather: ({ lat, lon }: GeoCoordinates) => void;
+  fetchForecast: (coord: GeoCoordinates) => void;
   setCurrentCityName: (name: string) => void;
   setDisplaySearch: (search: boolean) => void;
 }
 
 const CitySelectorItem: React.FC<CitySelectorItemProps> = ({
   city,
-  fetchWeather,
+  fetchCurrentWeather,
+  fetchForecast,
   setCurrentCityName,
   setDisplaySearch,
 }) => {
@@ -17,7 +19,9 @@ const CitySelectorItem: React.FC<CitySelectorItemProps> = ({
     <button
       type="button"
       onPointerDown={() => {
-        fetchWeather({ lat: city.latitude, lon: city.longitude });
+        fetchCurrentWeather({ lat: city.latitude, lon: city.longitude });
+        fetchForecast({ lat: city.latitude, lon: city.longitude });
+        // console.log(fetchForecast({ lat: -34.6583293, lon: -58.6671441 }));
         setCurrentCityName(city.name);
         setDisplaySearch(false);
       }}

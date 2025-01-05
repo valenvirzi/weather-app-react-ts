@@ -1,5 +1,4 @@
 import { useState } from "react";
-// import currentWeatherResponse from "../mocks/currentWeatherResponse.json";
 import { CurrentWeatherResponse, GeoCoordinates } from "../types/types";
 
 const useCurrentWeather = (apiKey: string) => {
@@ -35,47 +34,6 @@ const useCurrentWeather = (apiKey: string) => {
       setLoading(false);
     }
   };
-
-  //  const currentWeatherData: CurrentWeatherResponse = currentWeatherResponse;
-  // const {
-  //   coord,
-  //   weather,
-  //   base,
-  //   main: { temp, feels_like, temp_min, temp_max, humidity, pressure },
-  //   visibility,
-  //   wind: { speed, deg },
-  //   rain,
-  //   snow,
-  //   clouds,
-  //   dt,
-  //   sys: { type, country, sunrise, sunset },
-  //   timezone,
-  //   id,
-  //   name,
-  //   cod,
-  // } = currentWeatherData;
-  // const currentWeather = {
-  //   coord,
-  //   weather,
-  //   base,
-  //   main: { temp, feels_like, temp_min, temp_max, humidity, pressure },
-  //   visibility,
-  //   wind: { speed, deg },
-  //   rain,
-  //   snow,
-  //   clouds,
-  //   dt,
-  //   sys: {
-  //     type,
-  //     country,
-  //     sunrise,
-  //     sunset,
-  //   },
-  //   timezone,
-  //   id,
-  //   name,
-  //   cod,
-  // };
   return { currentWeather, loading, error, fetchCurrentWeather };
 };
 
