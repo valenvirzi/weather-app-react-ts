@@ -3,11 +3,12 @@ import useCapitalizeWords from "../hooks/useCapitalizeWords";
 import useFormatDate from "../hooks/useFormatDate";
 import { CurrentWeatherResponse } from "../types/types";
 
+// TODO: Export type to types.ts file
 interface CurrentWeatherDisplayProps {
   currentWeatherData: CurrentWeatherResponse | null;
   currentWeatherLoading: boolean;
   currentWeatherError: string | null;
-  unit: "K" | "C" | "F";
+  tempUnit: string;
   theme: { color: string; backgroundImage: string };
 }
 
@@ -15,11 +16,11 @@ const CurrentWeatherDisplay: React.FC<CurrentWeatherDisplayProps> = ({
   currentWeatherData,
   currentWeatherLoading,
   currentWeatherError,
-  unit,
+  tempUnit,
   theme,
 }) => {
   const tempValue = currentWeatherData?.main.temp ?? 0;
-  const convertedTemp = useTemperatureConversion(tempValue, unit);
+  const convertedTemp = useTemperatureConversion(tempValue, tempUnit);
   const tempDisplay = currentWeatherError
     ? currentWeatherError
     : currentWeatherLoading
@@ -38,7 +39,7 @@ const CurrentWeatherDisplay: React.FC<CurrentWeatherDisplayProps> = ({
       <section className="flex flex-col items-center gap-4">
         <div className="flex">
           <h2 className="text-6xl">{tempDisplay}</h2>
-          <span className="">{tempValue ? `°${unit}` : ""}</span>
+          <span className="">{tempValue ? `°${tempUnit}` : ""}</span>
         </div>
         <h2 className="text-xl">{formattedDescription}</h2>
         <div className="flex flex-col items-center gap-1 text-sm">

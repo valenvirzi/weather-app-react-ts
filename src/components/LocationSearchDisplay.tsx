@@ -2,6 +2,7 @@ import { useState } from "react";
 import { CityData, GeoCoordinates } from "../types/types";
 import CitySelectorItem from "./CitySelectorItem";
 
+// TODO: Export type to types.ts file
 interface LocationSearchDisplayProps {
   cities?: CityData[] | null;
   citiesLoading: boolean;

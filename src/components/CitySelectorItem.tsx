@@ -1,5 +1,6 @@
 import { CityData, GeoCoordinates } from "../types/types";
 
+// TODO: Export type to types.ts file
 interface CitySelectorItemProps {
   city: CityData;
   fetchCurrentWeather: ({ lat, lon }: GeoCoordinates) => void;

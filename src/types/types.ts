@@ -92,7 +92,7 @@ export type ForecastChartProps = {
   };
   forecastLoading: boolean;
   forecastError: string | null;
-  unit: "K" | "C" | "F";
+  tempUnit: string;
 };
 
 export interface CurrentWeatherResponse {

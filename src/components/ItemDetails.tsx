@@ -1,13 +1,14 @@
 import { ForecastItem } from "../types/types";
 import useTemperatureConversion from "../hooks/useTemperatureConversion";
 
+// TODO: Export type to types.ts file
 interface ItemDetailsProps {
   item: ForecastItem;
-  unit: "K" | "C" | "F";
+  tempUnit: string;
 }
 
-const ItemDetails: React.FC<ItemDetailsProps> = ({ item, unit }) => {
-  const convetedTemp = useTemperatureConversion(item.main.temp, unit);
+const ItemDetails: React.FC<ItemDetailsProps> = ({ item, tempUnit }) => {
+  const convetedTemp = useTemperatureConversion(item.main.temp, tempUnit);
   const formatDateToDayMonth = (dateString: string): string => {
     const [datePart] = dateString.split(" "); // Extract the date part (YYYY-MM-DD)
     const [year, month, day] = datePart.split("-"); // Split into year, month, and day
@@ -24,7 +25,7 @@ const ItemDetails: React.FC<ItemDetailsProps> = ({ item, unit }) => {
         alt="rain"
       />
       <span className="rounded p-1 px-2 group-first:bg-[#36abf8]">
-        {convetedTemp}°{unit}
+        {convetedTemp}°{tempUnit}
       </span>
     </li>
   );

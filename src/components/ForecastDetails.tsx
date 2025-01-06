@@ -2,18 +2,19 @@ import React from "react";
 import { ForecastItem } from "../types/types";
 import ItemDetails from "./ItemDetails";
 
+// TODO: Export type to types.ts file
 interface ForecastDetailsProps {
   gapSize: number;
   forecastData: ForecastItem[];
   children: React.ReactNode;
-  unit: "K" | "C" | "F";
+  tempUnit: string;
 }
 
 const ForecastDetails: React.FC<ForecastDetailsProps> = ({
   gapSize,
   forecastData,
   children,
-  unit,
+  tempUnit,
 }) => {
   return (
     <>
@@ -22,7 +23,7 @@ const ForecastDetails: React.FC<ForecastDetailsProps> = ({
         style={{ width: `${(forecastData.length - 1) * gapSize + 100}px` }}
       >
         {forecastData.map((item) => (
-          <ItemDetails key={item.dt} item={item} unit={unit} />
+          <ItemDetails key={item.dt} item={item} tempUnit={tempUnit} />
         ))}
       </ul>
       {children}

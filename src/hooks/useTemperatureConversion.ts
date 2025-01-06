@@ -1,9 +1,6 @@
 import { useMemo } from "react";
 
-const useTemperatureConversion = (
-  temp: number,
-  unit: "K" | "C" | "F",
-): string => {
+const useTemperatureConversion = (temp: number, unit: string): string => {
   return useMemo(() => {
     switch (unit) {
       case "C":

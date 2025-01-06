@@ -20,7 +20,7 @@ const ForecastChart: React.FC<ForecastChartProps> = ({
   forecastData,
   forecastLoading,
   forecastError,
-  unit,
+  tempUnit,
 }) => {
   const chartWidth = forecastData.forecastList.length * gapSize;
   const forecastDisplay = forecastError ? (
@@ -31,7 +31,7 @@ const ForecastChart: React.FC<ForecastChartProps> = ({
     <ForecastDetails
       gapSize={gapSize}
       forecastData={forecastData.forecastList}
-      unit={unit}
+      tempUnit={tempUnit}
     >
       <div className="mb-2 h-40 px-10" style={{ width: `${chartWidth}px` }}>
         <Line

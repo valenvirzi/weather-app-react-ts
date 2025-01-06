@@ -5,12 +5,14 @@ import useCurrentWeather from "./hooks/useCurrentWeather";
 import useForecast from "./hooks/useForecast";
 import LocationSearchDisplay from "./components/LocationSearchDisplay";
 import useGeocoding from "./hooks/useGeocoding";
+import { useSwitchTempUnit } from "./hooks/useSwitchTempUnit";
 
 function App() {
   const geocodingApiKey = "heRF6kJUGfGXsgT7lpj2sA==DAabcgoiFqoC7lK5";
   const weatherApiKey = "19460d6e8004c61debf07d5ca332ee8d";
   const [currentCityName, setCurrentCityName] = useState<string>("");
-  const [unitSystem, setUnitSystem] = useState<"K" | "C" | "F">("K");
+  const { tempUnit } = useSwitchTempUnit();
+
   // TODO: Make the unitSystem come from the LocalStorage if the user already chose one and make it be Kelvin otherwise.
   // TODO: Do the same for the latest fetched city info and forecast. Also with the favorite cities of the user.
   const [displaySearch, setDisplaySearch] = useState<boolean>(false);
@@ -107,15 +109,6 @@ function App() {
     }
   }, [currentWeatherData]);
 
-  const handleSwitchUnit = () => {
-    if (unitSystem === "K") {
-      setUnitSystem("C");
-    } else if (unitSystem === "C") {
-      setUnitSystem("F");
-    } else {
-      setUnitSystem("K");
-    }
-  };
   return (
     <div
       className={`app relative min-h-screen bg-cover bg-fixed bg-center bg-no-repeat`}
@@ -143,13 +136,14 @@ function App() {
               >
                 <img className="w-6" src="./img/search.svg" alt="search icon" />
               </button>
-              <button type="button" onPointerDown={handleSwitchUnit}>
+              {/* TODO: Put back the Settings button once the SettingsDisplay.tsx is finished in order for it to toggle the display of it on/off. */}
+              {/* <button type="button" onPointerDown={handleSwitchUnit}>
                 <img
                   className="w-6"
                   src="./img/options.svg"
                   alt="options icon"
                 />
-              </button>
+              </button> */}
             </div>
           ) : (
             <button
@@ -181,7 +175,7 @@ function App() {
               currentWeatherLoading={currentWeatherLoading}
               currentWeatherError={currentWeatherError}
               theme={theme}
-              unit={unitSystem}
+              tempUnit={tempUnit}
             />
             <section
               className={`flex flex-col gap-4 rounded-lg p-2`}
@@ -203,7 +197,7 @@ function App() {
                   forecastData={forecastData}
                   forecastError={forecastError}
                   forecastLoading={forecastLoading}
-                  unit={unitSystem}
+                  tempUnit={tempUnit}
                 />
               </div>
             </section>
