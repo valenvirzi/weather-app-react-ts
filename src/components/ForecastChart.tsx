@@ -20,7 +20,6 @@ const ForecastChart: React.FC<ForecastChartProps> = ({
   forecastData,
   forecastLoading,
   forecastError,
-  tempUnit,
 }) => {
   const chartWidth = forecastData.forecastList.length * gapSize;
   const forecastDisplay = forecastError ? (
@@ -28,11 +27,7 @@ const ForecastChart: React.FC<ForecastChartProps> = ({
   ) : forecastLoading ? (
     <img className="w-10 animate-spin" src="./img/loading.svg" />
   ) : forecastData.forecastList.length ? (
-    <ForecastDetails
-      gapSize={gapSize}
-      forecastData={forecastData.forecastList}
-      tempUnit={tempUnit}
-    >
+    <ForecastDetails gapSize={gapSize} forecastData={forecastData.forecastList}>
       <div className="mb-2 h-40 px-10" style={{ width: `${chartWidth}px` }}>
         <Line
           data={data(forecastData.forecastList)}

@@ -5,17 +5,22 @@ import useCurrentWeather from "./hooks/useCurrentWeather";
 import useForecast from "./hooks/useForecast";
 import LocationSearchDisplay from "./components/LocationSearchDisplay";
 import useGeocoding from "./hooks/useGeocoding";
-import { useSwitchTempUnit } from "./hooks/useSwitchTempUnit";
+import SettingsDisplay from "./components/SettingsDisplay";
+import { SettingsProvider } from "./context/SettingsContext";
 
 function App() {
   const geocodingApiKey = "heRF6kJUGfGXsgT7lpj2sA==DAabcgoiFqoC7lK5";
   const weatherApiKey = "19460d6e8004c61debf07d5ca332ee8d";
   const [currentCityName, setCurrentCityName] = useState<string>("");
-  const { tempUnit } = useSwitchTempUnit();
 
   // TODO: Make the unitSystem come from the LocalStorage if the user already chose one and make it be Kelvin otherwise.
   // TODO: Do the same for the latest fetched city info and forecast. Also with the favorite cities of the user.
   const [displaySearch, setDisplaySearch] = useState<boolean>(false);
+  const [displaySettings, setDisplaySettings] = useState<boolean>(false);
+  const toggleSettingsDisplay = () => {
+    setDisplaySettings(!displaySettings);
+  };
+
   const {
     forecastData,
     loading: forecastLoading,
@@ -36,12 +41,16 @@ function App() {
     fetchCityList,
   } = useGeocoding(geocodingApiKey);
 
+  // TODO: Save the latest weather data to the localStorage in order to be able to render from that info on the first render of the page.
+  // TODO: Think about a better way to display different screens (such as LocationSearchDisplay or SettingsDisplay), maybe by setting up React.Router for navigation between screens instead of rendering conditionally based on a state for every possible page like it is now.
   {
-    /* TODO: Set a proper "Options/Settings" menu for changing: 
-    - Temperature measure unit (K, C, F).
-    - Speed measure unit (Km/h, M/h, etc.).
-    - Dark/Light Mode.
-    - Language.
+    /* 
+    TODO: Add new features to the app such as: 
+    - a direction indicator for the current wind (an svg that will rotate depending on the direction of the wind.)
+    - a display for the current atmospheric preassure.
+    - a graph for the wind direction and speed for each item on the forecast.
+    - a graph for the humidity levels for each item on the forecast.
+    - a display for the sunrise and sunset times for the current date.
     */
   }
   // TODO: Export everything that can be exported to clean the code and separate it depending on its functionality.
@@ -110,103 +119,112 @@ function App() {
   }, [currentWeatherData]);
 
   return (
-    <div
-      className={`app relative min-h-screen bg-cover bg-fixed bg-center bg-no-repeat`}
-      style={{ backgroundImage: `url(${theme.backgroundImage})` }}
-    >
+    <SettingsProvider>
       <div
-        className={`absolute inset-0 z-10 opacity-55`}
-        style={{ backgroundColor: `${theme.color}` }}
-      ></div>
-      <div className="relative z-20 flex flex-col gap-4 text-white">
-        <header className="sticky top-0 flex items-center justify-between bg-opacity-55 bg-gradient-to-b from-black to-transparent p-3">
-          <button
-            className="flex items-center gap-2"
-            type="button"
-            onPointerDown={() => setDisplaySearch(!displaySearch)}
-          >
-            <img className="w-6" src="./img/location.svg" alt="location icon" />
-            <span>{currentCityName}</span>
-          </button>
-          {!displaySearch ? (
-            <div className="flex items-center gap-4">
+        className={`app relative min-h-screen bg-cover bg-fixed bg-center bg-no-repeat`}
+        style={{ backgroundImage: `url(${theme.backgroundImage})` }}
+      >
+        <div
+          className={`absolute inset-0 z-10 opacity-55`}
+          style={{ backgroundColor: `${theme.color}` }}
+        ></div>
+        <div className="relative z-20 flex flex-col gap-4 text-white">
+          <header className="sticky top-0 flex items-center justify-between bg-opacity-55 bg-gradient-to-b from-black to-transparent p-3">
+            <button
+              className="flex items-center gap-2"
+              type="button"
+              onPointerDown={() => setDisplaySearch(!displaySearch)}
+            >
+              <img
+                className="w-6"
+                src="./img/location.svg"
+                alt="location icon"
+              />
+              <span>{currentCityName}</span>
+            </button>
+            {!displaySearch ? (
+              <div className="flex items-center gap-4">
+                <button
+                  type="button"
+                  onPointerDown={() => setDisplaySearch(!displaySearch)}
+                >
+                  <img
+                    className="w-6"
+                    src="./img/search.svg"
+                    alt="search icon"
+                  />
+                </button>
+                {/* TODO: Make a proper display for the Settings screen, so that it only shows the settings when opened and the main screen whne closed. */}
+                <button type="button" onPointerDown={toggleSettingsDisplay}>
+                  <img
+                    className="w-6"
+                    src="./img/options.svg"
+                    alt="options icon"
+                  />
+                </button>
+              </div>
+            ) : (
               <button
                 type="button"
                 onPointerDown={() => setDisplaySearch(!displaySearch)}
               >
-                <img className="w-6" src="./img/search.svg" alt="search icon" />
+                <img className="w-6" src="./img/close.svg" alt="close icon" />
               </button>
-              {/* TODO: Put back the Settings button once the SettingsDisplay.tsx is finished in order for it to toggle the display of it on/off. */}
-              {/* <button type="button" onPointerDown={handleSwitchUnit}>
-                <img
-                  className="w-6"
-                  src="./img/options.svg"
-                  alt="options icon"
-                />
-              </button> */}
-            </div>
-          ) : (
-            <button
-              type="button"
-              onPointerDown={() => setDisplaySearch(!displaySearch)}
-            >
-              <img className="w-6" src="./img/close.svg" alt="close icon" />
-            </button>
-          )}
-        </header>
-        {displaySearch ? (
-          <LocationSearchDisplay
-            cities={cityList}
-            citiesLoading={citiesLoading}
-            citiesError={citiesError}
-            fetchCityList={fetchCityList}
-            fetchCurrentWeather={fetchCurrentWeather}
-            fetchForecast={fetchForecast}
-            setCurrentCityName={setCurrentCityName}
-            setDisplaySearch={setDisplaySearch}
-          />
-        ) : (
-          <></>
-        )}
-        {!displaySearch ? (
-          <main className="flex min-h-[1000px] flex-col gap-8 px-3">
-            <CurrentWeatherDisplay
-              currentWeatherData={currentWeatherData}
-              currentWeatherLoading={currentWeatherLoading}
-              currentWeatherError={currentWeatherError}
-              theme={theme}
-              tempUnit={tempUnit}
+            )}
+          </header>
+          {displaySettings ? <SettingsDisplay /> : <></>}
+          {displaySearch ? (
+            <LocationSearchDisplay
+              cities={cityList}
+              citiesLoading={citiesLoading}
+              citiesError={citiesError}
+              fetchCityList={fetchCityList}
+              fetchCurrentWeather={fetchCurrentWeather}
+              fetchForecast={fetchForecast}
+              setCurrentCityName={setCurrentCityName}
+              setDisplaySearch={setDisplaySearch}
             />
-            <section
-              className={`flex flex-col gap-4 rounded-lg p-2`}
-              style={{ backgroundColor: `${theme.color}` }}
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <img className="w-6" src="./img/clock.svg" alt="clock" />
-                  <h3 className="">Pronóstico 5 días</h3>
+          ) : (
+            <></>
+          )}
+          {!displaySearch ? (
+            <main className="flex min-h-[1000px] flex-col gap-8 px-3">
+              <CurrentWeatherDisplay
+                currentWeatherData={currentWeatherData}
+                currentWeatherLoading={currentWeatherLoading}
+                currentWeatherError={currentWeatherError}
+                theme={theme}
+              />
+              <section
+                className={`flex flex-col gap-4 rounded-lg p-2`}
+                style={{ backgroundColor: `${theme.color}` }}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <img className="w-6" src="./img/clock.svg" alt="clock" />
+                    <h3 className="">Pronóstico 5 días</h3>
+                  </div>
+                  <div className="flex items-center gap-1 px-1 text-xs opacity-70">
+                    <span>3</span>
+                    <span>hours</span>
+                  </div>
                 </div>
-                <div className="flex items-center gap-1 px-1 text-xs opacity-70">
-                  <span>3</span>
-                  <span>hours</span>
+                <div>
+                  <ForecastChart
+                    gapSize={100}
+                    forecastData={forecastData}
+                    forecastError={forecastError}
+                    forecastLoading={forecastLoading}
+                  />
                 </div>
-              </div>
-              <div>
-                <ForecastChart
-                  gapSize={100}
-                  forecastData={forecastData}
-                  forecastError={forecastError}
-                  forecastLoading={forecastLoading}
-                  tempUnit={tempUnit}
-                />
-              </div>
-            </section>
-          </main>
-        ) : (
-          <></>
-        )}
+              </section>
+            </main>
+          ) : (
+            <></>
+          )}
+        </div>
       </div>
-    </div>
+    </SettingsProvider>
   );
 }
 

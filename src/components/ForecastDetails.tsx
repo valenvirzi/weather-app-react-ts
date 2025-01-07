@@ -7,14 +7,12 @@ interface ForecastDetailsProps {
   gapSize: number;
   forecastData: ForecastItem[];
   children: React.ReactNode;
-  tempUnit: string;
 }
 
 const ForecastDetails: React.FC<ForecastDetailsProps> = ({
   gapSize,
   forecastData,
   children,
-  tempUnit,
 }) => {
   return (
     <>
@@ -23,7 +21,7 @@ const ForecastDetails: React.FC<ForecastDetailsProps> = ({
         style={{ width: `${(forecastData.length - 1) * gapSize + 100}px` }}
       >
         {forecastData.map((item) => (
-          <ItemDetails key={item.dt} item={item} tempUnit={tempUnit} />
+          <ItemDetails key={item.dt} item={item} />
         ))}
       </ul>
       {children}

@@ -2,13 +2,13 @@ import useTemperatureConversion from "../hooks/useTemperatureConversion";
 import useCapitalizeWords from "../hooks/useCapitalizeWords";
 import useFormatDate from "../hooks/useFormatDate";
 import { CurrentWeatherResponse } from "../types/types";
+import { useSettings } from "../context/SettingsContext";
 
 // TODO: Export type to types.ts file
 interface CurrentWeatherDisplayProps {
   currentWeatherData: CurrentWeatherResponse | null;
   currentWeatherLoading: boolean;
   currentWeatherError: string | null;
-  tempUnit: string;
   theme: { color: string; backgroundImage: string };
 }
 
@@ -16,11 +16,14 @@ const CurrentWeatherDisplay: React.FC<CurrentWeatherDisplayProps> = ({
   currentWeatherData,
   currentWeatherLoading,
   currentWeatherError,
-  tempUnit,
   theme,
 }) => {
+  const { currentSettings } = useSettings();
   const tempValue = currentWeatherData?.main.temp ?? 0;
-  const convertedTemp = useTemperatureConversion(tempValue, tempUnit);
+  const convertedTemp = useTemperatureConversion(
+    tempValue,
+    currentSettings.tempUnit,
+  );
   const tempDisplay = currentWeatherError
     ? currentWeatherError
     : currentWeatherLoading
@@ -39,7 +42,9 @@ const CurrentWeatherDisplay: React.FC<CurrentWeatherDisplayProps> = ({
       <section className="flex flex-col items-center gap-4">
         <div className="flex">
           <h2 className="text-6xl">{tempDisplay}</h2>
-          <span className="">{tempValue ? `°${tempUnit}` : ""}</span>
+          <span className="">
+            {tempValue ? `°${currentSettings.tempUnit}` : ""}
+          </span>
         </div>
         <h2 className="text-xl">{formattedDescription}</h2>
         <div className="flex flex-col items-center gap-1 text-sm">
@@ -57,9 +62,10 @@ const CurrentWeatherDisplay: React.FC<CurrentWeatherDisplayProps> = ({
             <img className="w-6" src="./img/wind.svg" alt="wind" />
             <div className="flex items-center gap-1">
               <span>
+                {/* TODO: Make the speed be calculated differently depending on the speedUnit set in the settings, just like the temperature does. */}
                 {(currentWeatherData?.wind.speed ?? 0 * 3.6).toFixed(1)}
               </span>
-              <span>Km/h</span>
+              <span>{currentSettings.speedUnit}</span>
             </div>
           </div>
         </article>
