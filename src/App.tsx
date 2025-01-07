@@ -41,11 +41,11 @@ function App() {
     fetchCityList,
   } = useGeocoding(geocodingApiKey);
 
-  // TODO: Save the latest weather data to the localStorage in order to be able to render from that info on the first render of the page.
   // TODO: Think about a better way to display different screens (such as LocationSearchDisplay or SettingsDisplay), maybe by setting up React.Router for navigation between screens instead of rendering conditionally based on a state for every possible page like it is now.
   {
     /* 
     TODO: Add new features to the app such as: 
+    - Being able to save some cities as favorites to be able to select them without having to manually search for it every time
     - a direction indicator for the current wind (an svg that will rotate depending on the direction of the wind.)
     - a display for the current atmospheric preassure.
     - a graph for the wind direction and speed for each item on the forecast.

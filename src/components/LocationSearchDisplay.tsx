@@ -30,6 +30,9 @@ const LocationSearchDisplay: React.FC<LocationSearchDisplayProps> = ({
     }
   };
 
+  // TODO: Make a useEffect function that saves the fav cities in localStorage for later render of the favCities list at the top of the <ul></ul>
+  // TODO: Make a merge of both arrays conditionally before rendering the components from it.
+
   return (
     <div className="flex flex-col gap-px">
       <form
