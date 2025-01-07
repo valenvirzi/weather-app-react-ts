@@ -10,7 +10,6 @@ interface LocationSearchDisplayProps {
   fetchCityList: (citySearchInput: string) => void;
   fetchCurrentWeather: ({ lat, lon }: GeoCoordinates) => void;
   fetchForecast: (coord: GeoCoordinates) => void;
-  setCurrentCityName: (name: string) => void;
   setDisplaySearch: (display: boolean) => void;
 }
 
@@ -21,7 +20,6 @@ const LocationSearchDisplay: React.FC<LocationSearchDisplayProps> = ({
   fetchCityList,
   fetchCurrentWeather,
   fetchForecast,
-  setCurrentCityName,
   setDisplaySearch,
 }) => {
   const [citySearchInput, setCitySearchInput] = useState<string>("");
@@ -73,7 +71,6 @@ const LocationSearchDisplay: React.FC<LocationSearchDisplayProps> = ({
             return (
               <li key={index}>
                 <CitySelectorItem
-                  setCurrentCityName={setCurrentCityName}
                   city={city}
                   fetchCurrentWeather={fetchCurrentWeather}
                   fetchForecast={fetchForecast}

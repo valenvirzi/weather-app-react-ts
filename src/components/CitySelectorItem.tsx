@@ -1,28 +1,36 @@
+import { useWeatherData, WeatherData } from "../context/WeatherDataContext";
 import { CityData, GeoCoordinates } from "../types/types";
 
 // TODO: Export type to types.ts file
 interface CitySelectorItemProps {
   city: CityData;
-  fetchCurrentWeather: ({ lat, lon }: GeoCoordinates) => void;
+  fetchCurrentWeather: (coord: GeoCoordinates) => void;
   fetchForecast: (coord: GeoCoordinates) => void;
-  setCurrentCityName: (name: string) => void;
-  setDisplaySearch: (search: boolean) => void;
+  setDisplaySearch: (displaySearch: boolean) => void;
 }
 
 const CitySelectorItem: React.FC<CitySelectorItemProps> = ({
   city,
   fetchCurrentWeather,
   fetchForecast,
-  setCurrentCityName,
   setDisplaySearch,
 }) => {
+  const { setWeatherData } = useWeatherData();
+
+  const updateCurrentCity = (city: CityData) => {
+    setWeatherData((prevWeatherData: WeatherData) => ({
+      ...prevWeatherData,
+      city: city,
+    }));
+  };
+
   return (
     <button
       type="button"
       onPointerDown={() => {
         fetchCurrentWeather({ lat: city.latitude, lon: city.longitude });
         fetchForecast({ lat: city.latitude, lon: city.longitude });
-        setCurrentCityName(city.name);
+        updateCurrentCity(city);
         setDisplaySearch(false);
       }}
       className="flex w-full flex-col gap-1 bg-black bg-opacity-75 px-4 py-2"

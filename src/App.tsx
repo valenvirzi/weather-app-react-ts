@@ -7,11 +7,11 @@ import LocationSearchDisplay from "./components/LocationSearchDisplay";
 import useGeocoding from "./hooks/useGeocoding";
 import SettingsDisplay from "./components/SettingsDisplay";
 import { SettingsProvider } from "./context/SettingsContext";
+import { useWeatherData } from "./context/WeatherDataContext";
 
 function App() {
   const geocodingApiKey = "heRF6kJUGfGXsgT7lpj2sA==DAabcgoiFqoC7lK5";
   const weatherApiKey = "19460d6e8004c61debf07d5ca332ee8d";
-  const [currentCityName, setCurrentCityName] = useState<string>("");
 
   // TODO: Make the unitSystem come from the LocalStorage if the user already chose one and make it be Kelvin otherwise.
   // TODO: Do the same for the latest fetched city info and forecast. Also with the favorite cities of the user.
@@ -21,15 +21,15 @@ function App() {
     setDisplaySettings(!displaySettings);
   };
 
+  const { weatherData } = useWeatherData();
+
   const {
-    forecastData,
     loading: forecastLoading,
     error: forecastError,
     fetchForecast,
   } = useForecast(weatherApiKey);
 
   const {
-    currentWeather: currentWeatherData,
     loading: currentWeatherLoading,
     error: currentWeatherError,
     fetchCurrentWeather,
@@ -56,6 +56,7 @@ function App() {
   // TODO: Export everything that can be exported to clean the code and separate it depending on its functionality.
   // TODO: Remove/Find a better use for the selection of the timespan of the forecast, because it makes no sense for it to be shorter, nobody would choose to have less info than the available, in any case they will just choose not to watch it, but still have it displayed anyways.
   // TODO: Make the Desktop design on the app.
+
   const [theme, setTheme] = useState<{
     color: string;
     backgroundImage: string;
@@ -66,7 +67,7 @@ function App() {
   });
 
   useEffect(() => {
-    if (currentWeatherData?.weather?.[0]?.main) {
+    if (weatherData.currentWeather?.weather?.[0]?.main) {
       const weatherThemes: Record<
         string,
         { color: string; backgroundImage: string }
@@ -102,7 +103,7 @@ function App() {
             "https://images.unsplash.com/photo-1478265409131-1f65c88f965c?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         },
       };
-      const weatherMain = currentWeatherData.weather[0].main;
+      const weatherMain = weatherData.currentWeather.weather[0].main;
       const newTheme = weatherThemes[weatherMain] || {
         color: "#000000",
         backgroundImage:
@@ -116,7 +117,7 @@ function App() {
           : prevTheme,
       );
     }
-  }, [currentWeatherData]);
+  }, [weatherData.currentWeather]);
 
   return (
     <SettingsProvider>
@@ -140,7 +141,7 @@ function App() {
                 src="./img/location.svg"
                 alt="location icon"
               />
-              <span>{currentCityName}</span>
+              <span>{weatherData.city?.name}</span>
             </button>
             {!displaySearch ? (
               <div className="flex items-center gap-4">
@@ -154,7 +155,7 @@ function App() {
                     alt="search icon"
                   />
                 </button>
-                {/* TODO: Make a proper display for the Settings screen, so that it only shows the settings when opened and the main screen whne closed. */}
+                {/* TODO: Make a proper display for the Settings screen, so that it only shows the settings when opened and the main screen when closed. */}
                 <button type="button" onPointerDown={toggleSettingsDisplay}>
                   <img
                     className="w-6"
@@ -181,7 +182,6 @@ function App() {
               fetchCityList={fetchCityList}
               fetchCurrentWeather={fetchCurrentWeather}
               fetchForecast={fetchForecast}
-              setCurrentCityName={setCurrentCityName}
               setDisplaySearch={setDisplaySearch}
             />
           ) : (
@@ -190,7 +190,6 @@ function App() {
           {!displaySearch ? (
             <main className="flex min-h-[1000px] flex-col gap-8 px-3">
               <CurrentWeatherDisplay
-                currentWeatherData={currentWeatherData}
                 currentWeatherLoading={currentWeatherLoading}
                 currentWeatherError={currentWeatherError}
                 theme={theme}
@@ -212,7 +211,6 @@ function App() {
                 <div>
                   <ForecastChart
                     gapSize={100}
-                    forecastData={forecastData}
                     forecastError={forecastError}
                     forecastLoading={forecastLoading}
                   />

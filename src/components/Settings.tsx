@@ -29,9 +29,9 @@ const Settings: React.FC = () => {
 
   // Labels for each select element
   const labels: { [key: string]: string } = {
-    tempUnit: "Temperature unit:",
-    speedUnit: "Speed unit:",
-    language: "Language:",
+    tempUnit: "Temperature unit",
+    speedUnit: "Speed unit",
+    language: "Language",
   };
 
   // Handler for select changes
@@ -58,10 +58,14 @@ const Settings: React.FC = () => {
             id={key}
             value={currentSettings[key as keyof CurrentSettings]}
             onChange={handleSelectChange(key)}
-            className="rounded border p-2 text-sm text-black"
+            className="bg-transparent p-2 text-sm"
           >
             {values.map((option) => (
-              <option key={option.value} value={option.value}>
+              <option
+                className="text-right text-black"
+                key={option.value}
+                value={option.value}
+              >
                 {option.label}
               </option>
             ))}

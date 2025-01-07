@@ -1,24 +1,24 @@
 import { useState } from "react";
-import {
-  ForecastThreeHoursResponse,
-  ForecastItem,
-  ForecastCity,
-  GeoCoordinates,
-} from "../types/types";
+import { ForecastThreeHoursResponse, GeoCoordinates } from "../types/types";
+import { useWeatherData, WeatherData } from "../context/WeatherDataContext";
 
 const useForecast = (apiKey: string) => {
-  const [forecast, setForecast] = useState<ForecastThreeHoursResponse | null>(
-    null,
-  );
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
+  const { setWeatherData } = useWeatherData();
+
+  const updateForecast = (forecast: ForecastThreeHoursResponse) => {
+    setWeatherData((prevWeatherData: WeatherData) => ({
+      ...prevWeatherData,
+      forecast: forecast,
+    }));
+  };
   // Type the forecast response correctly
 
   const fetchForecast = async (coord: GeoCoordinates): Promise<void> => {
     setLoading(true);
     setError(null);
-    setForecast(null);
 
     try {
       const response = await fetch(
@@ -30,7 +30,7 @@ const useForecast = (apiKey: string) => {
         );
       }
       const result: ForecastThreeHoursResponse = await response.json();
-      setForecast(result);
+      updateForecast(result);
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message);
@@ -41,46 +41,8 @@ const useForecast = (apiKey: string) => {
       setLoading(false);
     }
   };
-  const forecastCity: ForecastCity | undefined = forecast?.city ?? undefined;
-  const forecastList: ForecastItem[] | undefined =
-    // Map over the list and create the full ForecastItem structure
-    forecast?.list.map((forecastItem) => {
-      const {
-        dt,
-        main: { temp, feels_like, temp_min, temp_max, humidity, pressure },
-        weather,
-        clouds,
-        wind,
-        visibility,
-        pop: precipitationProbability,
-        rain,
-        snow,
-        sys: { pod },
-        dt_txt: dateTime,
-      } = forecastItem;
 
-      // Return the full object, keeping the nested structure
-      return {
-        dt,
-        main: { temp, feels_like, temp_min, temp_max, humidity, pressure },
-        weather,
-        clouds,
-        wind,
-        visibility,
-        pop: precipitationProbability,
-        rain,
-        snow,
-        sys: { pod },
-        dt_txt: dateTime,
-      };
-    }) ?? [];
-
-  const forecastData = {
-    forecastCity,
-    forecastList,
-  };
-
-  return { forecastData, loading, error, fetchForecast };
+  return { loading, error, fetchForecast };
 };
 
 export default useForecast;

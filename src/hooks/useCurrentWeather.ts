@@ -1,16 +1,22 @@
 import { useState } from "react";
 import { CurrentWeatherResponse, GeoCoordinates } from "../types/types";
+import { useWeatherData, WeatherData } from "../context/WeatherDataContext";
 
 const useCurrentWeather = (apiKey: string) => {
-  const [currentWeather, setCurrentWeather] =
-    useState<CurrentWeatherResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
+  const { setWeatherData } = useWeatherData();
+
+  const updateCurrentWeather = (currentWeather: CurrentWeatherResponse) => {
+    setWeatherData((prevWeatherData: WeatherData) => ({
+      ...prevWeatherData,
+      currentWeather: currentWeather,
+    }));
+  };
   const fetchCurrentWeather = async (coord: GeoCoordinates): Promise<void> => {
     setLoading(true);
     setError(null);
-    setCurrentWeather(null);
 
     try {
       const response = await fetch(
@@ -23,7 +29,7 @@ const useCurrentWeather = (apiKey: string) => {
       }
 
       const result: CurrentWeatherResponse = await response.json();
-      setCurrentWeather(result);
+      updateCurrentWeather(result);
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message);
@@ -34,7 +40,7 @@ const useCurrentWeather = (apiKey: string) => {
       setLoading(false);
     }
   };
-  return { currentWeather, loading, error, fetchCurrentWeather };
+  return { loading, error, fetchCurrentWeather };
 };
 
 export default useCurrentWeather;

@@ -12,25 +12,27 @@ import { dashedLinesPlugin, gradientShadowPlugin } from "../utils/chartPlugins";
 
 import ForecastDetails from "./ForecastDetails";
 import { ForecastChartProps } from "../types/types";
+import { useWeatherData } from "../context/WeatherDataContext";
 
 ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale);
 
 const ForecastChart: React.FC<ForecastChartProps> = ({
   gapSize,
-  forecastData,
   forecastLoading,
   forecastError,
 }) => {
-  const chartWidth = forecastData.forecastList.length * gapSize;
+  const { weatherData } = useWeatherData();
+
+  const chartWidth = (weatherData.forecast?.list?.length ?? 0) * gapSize;
   const forecastDisplay = forecastError ? (
     <p className="text-red-800">{forecastError}</p>
   ) : forecastLoading ? (
     <img className="w-10 animate-spin" src="./img/loading.svg" />
-  ) : forecastData.forecastList.length ? (
-    <ForecastDetails gapSize={gapSize} forecastData={forecastData.forecastList}>
+  ) : weatherData.forecast?.list?.length ? (
+    <ForecastDetails gapSize={gapSize} forecastData={weatherData.forecast.list}>
       <div className="mb-2 h-40 px-10" style={{ width: `${chartWidth}px` }}>
         <Line
-          data={data(forecastData.forecastList)}
+          data={data(weatherData.forecast.list)}
           options={options}
           height={300}
           plugins={[dashedLinesPlugin, gradientShadowPlugin]}
