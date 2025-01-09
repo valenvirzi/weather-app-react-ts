@@ -28,8 +28,8 @@ const CitySelectorItem: React.FC<CitySelectorItemProps> = ({
     <button
       type="button"
       onPointerDown={() => {
-        fetchCurrentWeather({ lat: city.latitude, lon: city.longitude });
-        fetchForecast({ lat: city.latitude, lon: city.longitude });
+        fetchCurrentWeather({ lat: city.lat, lon: city.lon });
+        fetchForecast({ lat: city.lat, lon: city.lon });
         updateCurrentCity(city);
         setDisplaySearch(false);
       }}

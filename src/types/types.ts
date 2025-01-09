@@ -118,8 +118,8 @@ export interface CurrentWeatherResponse {
 
 export type CityData = {
   name: string;
-  latitude: number;
-  longitude: number;
+  lat: number;
+  lon: number;
   country: string;
   state: string;
 };

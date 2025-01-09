@@ -1,20 +1,23 @@
 import { useState } from "react";
-// import geocodingResponse from "../mocks/geocodingResponse.json";
-import { CityData } from "../types/types";
+import { GeoCoordinates } from "../types/types";
 
-const useGeocoding = (apiKey: string) => {
-  const [cityList, setCityList] = useState<CityData[] | null>(null);
+const useReverseGeocoding = (apiKey: string) => {
+  const [city, setCity] = useState<{
+    name: string;
+    country: string;
+    state: string;
+  } | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchCityList = async (citySearchInput: string): Promise<void> => {
+  const fetchCity = async (coordinates: GeoCoordinates): Promise<void> => {
     setLoading(true);
     setError(null);
-    setCityList(null);
+    setCity(null);
 
     try {
       const response = await fetch(
-        `https://api.api-ninjas.com/v1/geocoding?city=${citySearchInput}&country=`,
+        `https://api.api-ninjas.com/v1/reversegeocoding?lat=${coordinates.lat}&lon=${coordinates.lon}`,
         {
           method: "GET",
           headers: {
@@ -28,9 +31,9 @@ const useGeocoding = (apiKey: string) => {
           `Error! status: ${response.status} ${response.statusText}`,
         );
       }
-
-      const result: CityData[] = await response.json();
-      setCityList(result);
+      const result: { name: string; country: string; state: string } =
+        await response.json();
+      setCity(result);
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message);
@@ -41,8 +44,7 @@ const useGeocoding = (apiKey: string) => {
       setLoading(false);
     }
   };
-
-  return { cityList, loading, error, fetchCityList };
+  return { city, loading, error, fetchCity };
 };
 
-export default useGeocoding;
+export default useReverseGeocoding;

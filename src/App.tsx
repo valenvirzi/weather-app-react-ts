@@ -138,7 +138,7 @@ function App() {
             >
               <img
                 className="w-6"
-                src="./img/location.svg"
+                src="./img/locationPin.svg"
                 alt="location icon"
               />
               <span>{weatherData.city?.name}</span>
@@ -179,6 +179,7 @@ function App() {
               cities={cityList}
               citiesLoading={citiesLoading}
               citiesError={citiesError}
+              // apiKey={geocodingApiKey}
               fetchCityList={fetchCityList}
               fetchCurrentWeather={fetchCurrentWeather}
               fetchForecast={fetchForecast}
@@ -200,8 +201,12 @@ function App() {
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <img className="w-6" src="./img/clock.svg" alt="clock" />
-                    <h3 className="">Pronóstico 5 días</h3>
+                    <img
+                      className="w-6"
+                      src="./img/calendar.svg"
+                      alt="calendar"
+                    />
+                    <h3 className="">5 day forecast</h3>
                   </div>
                   <div className="flex items-center gap-1 px-1 text-xs opacity-70">
                     <span>3</span>

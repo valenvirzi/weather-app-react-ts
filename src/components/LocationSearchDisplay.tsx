@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { CityData, GeoCoordinates } from "../types/types";
 import CitySelectorItem from "./CitySelectorItem";
+// import { useWeatherData, WeatherData } from "../context/WeatherDataContext";
+// import useReverseGeocoding from "../hooks/useReverseGeocoding";
 
 // TODO: Export type to types.ts file
 interface LocationSearchDisplayProps {
   cities?: CityData[] | null;
   citiesLoading: boolean;
   citiesError: string | null;
+  // apiKey: string;
   fetchCityList: (citySearchInput: string) => void;
   fetchCurrentWeather: ({ lat, lon }: GeoCoordinates) => void;
   fetchForecast: (coord: GeoCoordinates) => void;
@@ -17,18 +20,30 @@ const LocationSearchDisplay: React.FC<LocationSearchDisplayProps> = ({
   cities,
   citiesLoading,
   citiesError,
+  // apiKey,
   fetchCityList,
   fetchCurrentWeather,
   fetchForecast,
   setDisplaySearch,
 }) => {
   const [citySearchInput, setCitySearchInput] = useState<string>("");
+
   const handleCitySearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (citySearchInput.trim()) {
       fetchCityList(citySearchInput);
     }
   };
+
+  // const { setWeatherData } = useWeatherData();
+  // const { city, loading, error, fetchCity } = useReverseGeocoding(apiKey);
+
+  // const updateCurrentCity = (city: CityData | null) => {
+  //   setWeatherData((prevWeatherData: WeatherData) => ({
+  //     ...prevWeatherData,
+  //     city: city,
+  //   }));
+  // };
 
   // TODO: Make a useEffect function that saves the fav cities in localStorage for later render of the favCities list at the top of the <ul></ul>
   // TODO: Make a merge of both arrays conditionally before rendering the components from it.
@@ -42,6 +57,41 @@ const LocationSearchDisplay: React.FC<LocationSearchDisplayProps> = ({
         action=""
         method="get"
       >
+        {/* TODO: Make this button make a reverseGeocodingAPI call of the city from the coordinates gotten from the browser location and then updateCurrentCity with that info https://www.api-ninjas.com/api/reversegeocoding */}
+        {/* <button
+          type="button"
+          onPointerDown={() => {
+            if (navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition(
+                (position) => {
+                  const coordinates = {
+                    lat: position.coords.latitude,
+                    lon: position.coords.longitude,
+                  };
+                  fetchCurrentWeather(coordinates);
+                  fetchForecast(coordinates);
+                  fetchCity(coordinates)
+                  updateCurrentCity(city);
+                },
+                (error) => {
+                  return error.message;
+                },
+              );
+            } else {
+              return "Geolocation is not supported by this browser.";
+            }
+            setDisplaySearch(false);
+          }}
+          form="citySearchForm"
+          className="p-2"
+        >
+          <img
+            className="aspect-square max-w-6"
+            src="./img/locationArrow.svg"
+            alt="locationArrow"
+          />
+        </button> */}
+
         <input
           type="text"
           name="citySearchInput"
