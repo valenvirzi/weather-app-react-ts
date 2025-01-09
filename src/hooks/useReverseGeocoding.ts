@@ -2,6 +2,7 @@ import { useState } from "react";
 import { GeoCoordinates } from "../types/types";
 
 const useReverseGeocoding = (apiKey: string) => {
+  //TODO: Find a way to make this work.
   const [city, setCity] = useState<{
     name: string;
     country: string;
