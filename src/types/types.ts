@@ -80,8 +80,8 @@ export type ForecastCity = {
 
 // Type for the `coord` field in `city`
 export type GeoCoordinates = {
-  lat: number; // Latitude
-  lon: number; // Longitude
+  latitude: number; // Latitude
+  longitude: number; // Longitude
 };
 
 export type ForecastChartProps = {
@@ -118,10 +118,11 @@ export interface CurrentWeatherResponse {
 
 export type CityData = {
   name: string;
-  lat: number;
-  lon: number;
+  latitude: number;
+  longitude: number;
   country: string;
   state: string;
+  id?: string;
 };
 
 export type GeocodingResponse = CityData[];

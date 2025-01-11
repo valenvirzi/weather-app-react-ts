@@ -20,7 +20,7 @@ const useCurrentWeather = (apiKey: string) => {
 
     try {
       const response = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${coord.lat}&lon=${coord.lon}&appid=${apiKey}`,
+        `https://api.openweathermap.org/data/2.5/weather?lat=${coord.latitude}&lon=${coord.longitude}&appid=${apiKey}`,
       );
       if (!response.ok) {
         throw new Error(

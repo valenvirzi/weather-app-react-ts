@@ -42,6 +42,7 @@ const CurrentWeatherDisplay: React.FC<CurrentWeatherDisplayProps> = ({
   const formattedDescription = useCapitalizeWords(
     weatherData.currentWeather?.weather[0].description ?? "",
   );
+  const windDirection = weatherData.currentWeather?.wind.deg.toString();
   const windSpeedValue = weatherData.currentWeather?.wind.speed ?? 0;
   const convertedWindSpeed = useSpeedConversion(
     windSpeedValue,
@@ -68,12 +69,28 @@ const CurrentWeatherDisplay: React.FC<CurrentWeatherDisplayProps> = ({
           className={`flex w-full flex-col gap-2 rounded-lg px-4 py-2`}
           style={{ backgroundColor: `${theme.color}` }}
         >
-          <span className="text-sm">Wind Speed</span>
-          <div className="flex items-center gap-2">
-            <img className="w-6" src="./img/wind.svg" alt="wind" />
+          <span className="text-sm">Wind</span>
+
+          <div className="relative flex justify-end">
+            <div className="absolute left-0 flex h-6 w-6 select-none items-center justify-center rounded-full border-2 border-white">
+              <span
+                className="relative -top-[60%] p-px text-xs"
+                style={{ backgroundColor: `${theme.color}` }}
+              >
+                N
+              </span>
+              <img
+                src="./img/directionArrow.svg"
+                alt="direction"
+                className="absolute max-w-4"
+                style={{
+                  transform: `rotate(${windDirection}deg)`,
+                }}
+              />
+            </div>
             <div className="flex items-center gap-1">
               <span>{convertedWindSpeed}</span>
-              <span>{currentSettings.speedUnit}</span>
+              <span className="text-sm">{currentSettings.speedUnit}</span>
             </div>
           </div>
         </article>

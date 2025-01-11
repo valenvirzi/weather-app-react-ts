@@ -1,17 +1,17 @@
 import { useState } from "react";
 import { CityData, GeoCoordinates } from "../types/types";
 import CitySelectorItem from "./CitySelectorItem";
-// import { useWeatherData, WeatherData } from "../context/WeatherDataContext";
-// import useReverseGeocoding from "../hooks/useReverseGeocoding";
+import { useWeatherData, WeatherData } from "../context/WeatherDataContext";
+import useReverseGeocoding from "../hooks/useReverseGeocoding";
 
 // TODO: Export type to types.ts file
 interface LocationSearchDisplayProps {
   cities?: CityData[] | null;
   citiesLoading: boolean;
   citiesError: string | null;
-  // apiKey: string;
+  goecodingApiKey: string;
   fetchCityList: (citySearchInput: string) => void;
-  fetchCurrentWeather: ({ lat, lon }: GeoCoordinates) => void;
+  fetchCurrentWeather: ({ latitude, longitude }: GeoCoordinates) => void;
   fetchForecast: (coord: GeoCoordinates) => void;
   setDisplaySearch: (display: boolean) => void;
 }
@@ -20,13 +20,38 @@ const LocationSearchDisplay: React.FC<LocationSearchDisplayProps> = ({
   cities,
   citiesLoading,
   citiesError,
-  // apiKey,
+  goecodingApiKey,
   fetchCityList,
   fetchCurrentWeather,
   fetchForecast,
   setDisplaySearch,
 }) => {
   const [citySearchInput, setCitySearchInput] = useState<string>("");
+
+  const [favoriteCities, setFavoriteCities] = useState<CityData[]>(() =>
+    JSON.parse(localStorage.getItem("favoriteCities") || "[]"),
+  );
+
+  const toggleFavoriteCity = (city: CityData) => {
+    setFavoriteCities((prevFavorites) => {
+      const isAlreadyFavorite = prevFavorites.some(
+        (favCity) =>
+          favCity.latitude === city.latitude &&
+          favCity.longitude === city.longitude,
+      );
+
+      const updatedFavorites = isAlreadyFavorite
+        ? prevFavorites.filter(
+            (favCity) =>
+              favCity.latitude !== city.latitude ||
+              favCity.longitude !== city.longitude,
+          )
+        : [...prevFavorites, city];
+
+      localStorage.setItem("favoriteCities", JSON.stringify(updatedFavorites));
+      return updatedFavorites;
+    });
+  };
 
   const handleCitySearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,18 +60,70 @@ const LocationSearchDisplay: React.FC<LocationSearchDisplayProps> = ({
     }
   };
 
-  // const { setWeatherData } = useWeatherData();
-  // const { city, loading, error, fetchCity } = useReverseGeocoding(apiKey);
+  const { setWeatherData } = useWeatherData();
+  const { loading: cityLoading, fetchCity } =
+    useReverseGeocoding(goecodingApiKey);
 
-  // const updateCurrentCity = (city: CityData | null) => {
-  //   setWeatherData((prevWeatherData: WeatherData) => ({
-  //     ...prevWeatherData,
-  //     city: city,
-  //   }));
-  // };
+  const updateCurrentCity = (city: CityData) => {
+    setWeatherData((prevWeatherData: WeatherData) => ({
+      ...prevWeatherData,
+      city: city,
+    }));
+    setDisplaySearch(false);
+  };
 
-  // TODO: Make a useEffect function that saves the fav cities in localStorage for later render of the favCities list at the top of the <ul></ul>
-  // TODO: Make a merge of both arrays conditionally before rendering the components from it.
+  const handleGetLocation = () => {
+    if (!navigator.geolocation) {
+      alert("Geolocation is not supported by this browser.");
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const coordinates: GeoCoordinates = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        };
+        try {
+          const fetchedCity = await fetchCity(coordinates);
+          if (fetchedCity) {
+            updateCurrentCity(fetchedCity);
+          }
+          fetchCurrentWeather(coordinates);
+          fetchForecast(coordinates);
+        } catch (error) {
+          console.error("Error fetching location data:", error);
+        }
+      },
+      (error) => {
+        switch (error.code) {
+          case error.PERMISSION_DENIED:
+            alert("User denied the request for Geolocation.");
+            break;
+          case error.POSITION_UNAVAILABLE:
+            alert("Location information is unavailable.");
+            break;
+          case error.TIMEOUT:
+            alert("The request to get user location timed out.");
+            break;
+          default:
+            alert("An unknown error occurred.");
+        }
+      },
+    );
+  };
+
+  const mergedCities = [
+    ...favoriteCities.filter(
+      (favCity) =>
+        !cities?.some(
+          (city) =>
+            city.latitude === favCity.latitude &&
+            city.longitude === favCity.longitude,
+        ),
+    ),
+    ...(cities || []),
+  ];
 
   return (
     <div className="flex flex-col gap-px">
@@ -57,40 +134,26 @@ const LocationSearchDisplay: React.FC<LocationSearchDisplayProps> = ({
         action=""
         method="get"
       >
-        {/* TODO: Make this button make a reverseGeocodingAPI call of the city from the coordinates gotten from the browser location and then updateCurrentCity with that info https://www.api-ninjas.com/api/reversegeocoding */}
-        {/* <button
+        <button
           type="button"
-          onPointerDown={() => {
-            if (navigator.geolocation) {
-              navigator.geolocation.getCurrentPosition(
-                (position) => {
-                  const coordinates = {
-                    lat: position.coords.latitude,
-                    lon: position.coords.longitude,
-                  };
-                  fetchCurrentWeather(coordinates);
-                  fetchForecast(coordinates);
-                  fetchCity(coordinates)
-                  updateCurrentCity(city);
-                },
-                (error) => {
-                  return error.message;
-                },
-              );
-            } else {
-              return "Geolocation is not supported by this browser.";
-            }
-            setDisplaySearch(false);
-          }}
+          onPointerDown={handleGetLocation}
           form="citySearchForm"
           className="p-2"
         >
-          <img
-            className="aspect-square max-w-6"
-            src="./img/locationArrow.svg"
-            alt="locationArrow"
-          />
-        </button> */}
+          {cityLoading ? (
+            <img
+              className="aspect-square max-w-6 animate-spin"
+              src="./img/loading.svg"
+              alt="loading"
+            />
+          ) : (
+            <img
+              className="aspect-square max-w-6"
+              src="./img/locationArrow.svg"
+              alt="locationArrow"
+            />
+          )}
+        </button>
 
         <input
           type="text"
@@ -110,29 +173,38 @@ const LocationSearchDisplay: React.FC<LocationSearchDisplayProps> = ({
           />
         </button>
       </form>
-      {citiesLoading && (
-        <p className="mt-4 self-center text-2xl">Loading cities...</p>
-      )}
-
-      {citiesError && (
-        <p className="mt-4 self-center text-2xl text-red-600">{citiesError}</p>
-      )}
-
-      {cities && (
+      {mergedCities && (
         <ul className="flex flex-col gap-px">
-          {cities?.map((city, index) => {
+          {mergedCities?.map((city, index) => {
             return (
-              <li key={index}>
+              <li key={`${city.latitude},${city.longitude},${index}`}>
                 <CitySelectorItem
                   city={city}
                   fetchCurrentWeather={fetchCurrentWeather}
                   fetchForecast={fetchForecast}
                   setDisplaySearch={setDisplaySearch}
+                  toggleFavoriteCity={toggleFavoriteCity}
+                  isFavorite={favoriteCities.some(
+                    (favCity) =>
+                      favCity.latitude === city.latitude &&
+                      favCity.longitude === city.longitude,
+                  )}
                 />
               </li>
             );
           })}
         </ul>
+      )}
+      {citiesLoading && (
+        <img
+          className="mt-6 aspect-square max-w-10 animate-spin self-center"
+          src="./img/loading.svg"
+          alt="loading"
+        />
+      )}
+
+      {citiesError && (
+        <p className="mt-4 self-center text-2xl text-red-600">{citiesError}</p>
       )}
     </div>
   );

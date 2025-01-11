@@ -10,11 +10,10 @@ import { SettingsProvider } from "./context/SettingsContext";
 import { useWeatherData } from "./context/WeatherDataContext";
 
 function App() {
+  // TODO: Hide the ApiKeys in a .env file
   const geocodingApiKey = "heRF6kJUGfGXsgT7lpj2sA==DAabcgoiFqoC7lK5";
   const weatherApiKey = "19460d6e8004c61debf07d5ca332ee8d";
 
-  // TODO: Make the unitSystem come from the LocalStorage if the user already chose one and make it be Kelvin otherwise.
-  // TODO: Do the same for the latest fetched city info and forecast. Also with the favorite cities of the user.
   const [displaySearch, setDisplaySearch] = useState<boolean>(false);
   const [displaySettings, setDisplaySettings] = useState<boolean>(false);
   const toggleSettingsDisplay = () => {
@@ -45,16 +44,12 @@ function App() {
   {
     /* 
     TODO: Add new features to the app such as: 
-    - Being able to save some cities as favorites to be able to select them without having to manually search for it every time
-    - a direction indicator for the current wind (an svg that will rotate depending on the direction of the wind.)
-    - a display for the current atmospheric preassure.
     - a graph for the wind direction and speed for each item on the forecast.
     - a graph for the humidity levels for each item on the forecast.
     - a display for the sunrise and sunset times for the current date.
     */
   }
   // TODO: Export everything that can be exported to clean the code and separate it depending on its functionality.
-  // TODO: Remove/Find a better use for the selection of the timespan of the forecast, because it makes no sense for it to be shorter, nobody would choose to have less info than the available, in any case they will just choose not to watch it, but still have it displayed anyways.
   // TODO: Make the Desktop design on the app.
 
   const [theme, setTheme] = useState<{
@@ -179,7 +174,7 @@ function App() {
               cities={cityList}
               citiesLoading={citiesLoading}
               citiesError={citiesError}
-              // apiKey={geocodingApiKey}
+              goecodingApiKey={geocodingApiKey}
               fetchCityList={fetchCityList}
               fetchCurrentWeather={fetchCurrentWeather}
               fetchForecast={fetchForecast}
