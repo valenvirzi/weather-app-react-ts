@@ -40,6 +40,23 @@ function App() {
     fetchCityList,
   } = useGeocoding(geocodingApiKey);
 
+  useEffect(() => {
+    const storedWeather = localStorage.getItem("weatherData");
+    if (storedWeather) {
+      const parsedWeather = JSON.parse(storedWeather);
+      const city = parsedWeather.city;
+      const lastUpdated = parsedWeather.timestamp;
+      if (Date.now() - lastUpdated > 10800000 / 100000) {
+        fetchCurrentWeather({
+          latitude: city.latitude,
+          longitude: city.longitude,
+        });
+        console.log("Weather Updated");
+        fetchForecast({ latitude: city.latitude, longitude: city.longitude });
+      }
+    }
+  }, [fetchCurrentWeather, fetchForecast]);
+
   // TODO: Think about a better way to display different screens (such as LocationSearchDisplay or SettingsDisplay), maybe by setting up React.Router for navigation between screens instead of rendering conditionally based on a state for every possible page like it is now.
   {
     /* 

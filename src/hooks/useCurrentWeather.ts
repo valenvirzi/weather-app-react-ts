@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { CurrentWeatherResponse, GeoCoordinates } from "../types/types";
 import { useWeatherData, WeatherData } from "../context/WeatherDataContext";
 
@@ -8,38 +8,42 @@ const useCurrentWeather = (apiKey: string) => {
 
   const { setWeatherData } = useWeatherData();
 
-  const updateCurrentWeather = (currentWeather: CurrentWeatherResponse) => {
-    setWeatherData((prevWeatherData: WeatherData) => ({
-      ...prevWeatherData,
-      currentWeather: currentWeather,
-    }));
-  };
-  const fetchCurrentWeather = async (coord: GeoCoordinates): Promise<void> => {
-    setLoading(true);
-    setError(null);
+  const fetchCurrentWeather = useCallback(
+    async (coord: GeoCoordinates): Promise<void> => {
+      setLoading(true);
+      setError(null);
 
-    try {
-      const response = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${coord.latitude}&lon=${coord.longitude}&appid=${apiKey}`,
-      );
-      if (!response.ok) {
-        throw new Error(
-          `Error! status: ${response.status} ${response.statusText}`,
+      const updateCurrentWeather = (currentWeather: CurrentWeatherResponse) => {
+        setWeatherData((prevWeatherData: WeatherData) => ({
+          ...prevWeatherData,
+          currentWeather: currentWeather,
+        }));
+      };
+
+      try {
+        const response = await fetch(
+          `https://api.openweathermap.org/data/2.5/weather?lat=${coord.latitude}&lon=${coord.longitude}&appid=${apiKey}`,
         );
-      }
+        if (!response.ok) {
+          throw new Error(
+            `Error! status: ${response.status} ${response.statusText}`,
+          );
+        }
 
-      const result: CurrentWeatherResponse = await response.json();
-      updateCurrentWeather(result);
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        setError(error.message);
-      } else {
-        setError("An unexpected error occurred");
+        const result: CurrentWeatherResponse = await response.json();
+        updateCurrentWeather(result);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          setError(error.message);
+        } else {
+          setError("An unexpected error occurred");
+        }
+      } finally {
+        setLoading(false);
       }
-    } finally {
-      setLoading(false);
-    }
-  };
+    },
+    [apiKey, setWeatherData],
+  );
   return { loading, error, fetchCurrentWeather };
 };
 

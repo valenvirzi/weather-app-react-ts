@@ -15,12 +15,14 @@ export type WeatherData = {
   city: CityData | null;
   currentWeather: CurrentWeatherResponse | null;
   forecast: ForecastThreeHoursResponse | null;
+  timestamp: number | null;
 };
 
 const defaultWeatherData: WeatherData = {
   city: null,
   currentWeather: null,
   forecast: null,
+  timestamp: null,
 };
 
 type WeatherDataContextType = {

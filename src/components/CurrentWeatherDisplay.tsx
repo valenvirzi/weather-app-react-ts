@@ -71,8 +71,8 @@ const CurrentWeatherDisplay: React.FC<CurrentWeatherDisplayProps> = ({
         >
           <span className="text-sm">Wind</span>
 
-          <div className="relative flex justify-end">
-            <div className="absolute left-0 flex h-6 w-6 select-none items-center justify-center rounded-full border-2 border-white">
+          <div className="relative flex gap-2">
+            <div className="relative flex h-6 w-6 select-none items-center justify-center rounded-full border-2 border-white">
               <span
                 className="relative -top-[60%] p-px text-xs"
                 style={{ backgroundColor: `${theme.color}` }}
