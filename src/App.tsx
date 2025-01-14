@@ -46,7 +46,7 @@ function App() {
       const parsedWeather = JSON.parse(storedWeather);
       const city = parsedWeather.city;
       const lastUpdated = parsedWeather.timestamp;
-      if (Date.now() - lastUpdated > 10800000 / 100000) {
+      if (Date.now() - lastUpdated > 10800000) {
         fetchCurrentWeather({
           latitude: city.latitude,
           longitude: city.longitude,
