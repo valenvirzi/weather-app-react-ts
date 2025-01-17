@@ -8,6 +8,7 @@ import useGeocoding from "./hooks/useGeocoding";
 import SettingsDisplay from "./components/SettingsDisplay";
 import { SettingsProvider } from "./context/SettingsContext";
 import { useWeatherData } from "./context/WeatherDataContext";
+import ExtraForecastDisplay from "./components/ExtraForecastDisplay";
 
 function App() {
   // TODO: Hide the ApiKeys in a .env file
@@ -55,7 +56,6 @@ function App() {
           latitude: city.latitude,
           longitude: city.longitude,
         });
-        console.log("Weather Updated");
         fetchForecast({ latitude: city.latitude, longitude: city.longitude });
       }
     }
@@ -205,7 +205,7 @@ function App() {
             <></>
           )}
           {!displaySearch ? (
-            <main className="flex min-h-[1000px] flex-col gap-8 px-3">
+            <main className="flex min-h-[1000px] flex-col gap-6 px-3">
               <CurrentWeatherDisplay
                 currentWeatherLoading={currentWeatherLoading}
                 currentWeatherError={currentWeatherError}
@@ -234,6 +234,18 @@ function App() {
                     gapSize={100}
                     forecastError={forecastError}
                     forecastLoading={forecastLoading}
+                  />
+                </div>
+              </section>
+              <section
+                className={`flex flex-col gap-4 rounded-lg p-2`}
+                style={{ backgroundColor: `${theme.color}` }}
+              >
+                <div>
+                  {/* TODO: New component to show Humidity levels, Wind info, and Rain chances every 3hs */}
+                  <ExtraForecastDisplay
+                    forecastLoading={forecastLoading}
+                    forecastError={forecastError}
                   />
                 </div>
               </section>
