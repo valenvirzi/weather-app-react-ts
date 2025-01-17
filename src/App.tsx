@@ -11,16 +11,19 @@ import { useWeatherData } from "./context/WeatherDataContext";
 
 function App() {
   // TODO: Hide the ApiKeys in a .env file
+  // TODO: Change Geocoding API to the one on the link because the current one only supports search by exact name instad of partial name.
+  // https://docs.mapbox.com/playground/geocoding/?search_text=orla&limit=10&proximity=ip&searchType=forward
   const geocodingApiKey = "heRF6kJUGfGXsgT7lpj2sA==DAabcgoiFqoC7lK5";
   const weatherApiKey = "19460d6e8004c61debf07d5ca332ee8d";
 
   const [displaySearch, setDisplaySearch] = useState<boolean>(false);
   const [displaySettings, setDisplaySettings] = useState<boolean>(false);
+
+  const { weatherData } = useWeatherData();
+
   const toggleSettingsDisplay = () => {
     setDisplaySettings(!displaySettings);
   };
-
-  const { weatherData } = useWeatherData();
 
   const {
     loading: forecastLoading,
@@ -33,6 +36,7 @@ function App() {
     error: currentWeatherError,
     fetchCurrentWeather,
   } = useCurrentWeather(weatherApiKey);
+
   const {
     cityList,
     loading: citiesLoading,
