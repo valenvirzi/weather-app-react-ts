@@ -181,13 +181,23 @@ function App() {
                   />
                 </button>
                 {/* TODO: Make a proper display for the Settings screen, so that it only shows the settings when opened and the main screen when closed. */}
-                <button type="button" onPointerDown={toggleSettingsDisplay}>
-                  <img
-                    className="w-6"
-                    src="./img/options.svg"
-                    alt="options icon"
-                  />
-                </button>
+                {!displaySettings ? (
+                  <button type="button" onPointerDown={toggleSettingsDisplay}>
+                    <img
+                      className="w-6"
+                      src="./img/options.svg"
+                      alt="options icon"
+                    />
+                  </button>
+                ) : (
+                  <button type="button" onPointerDown={toggleSettingsDisplay}>
+                    <img
+                      className="w-6"
+                      src="./img/close.svg"
+                      alt="close icon"
+                    />
+                  </button>
+                )}
               </div>
             ) : (
               <button
