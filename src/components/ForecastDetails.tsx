@@ -1,6 +1,6 @@
 import React from "react";
 import { ForecastItem } from "../types/types";
-import ItemDetails from "./ItemDetails";
+import ForecastItemDetails from "./ForecastItemDetails";
 
 // TODO: Export type to types.ts file
 interface ForecastDetailsProps {
@@ -21,7 +21,7 @@ const ForecastDetails: React.FC<ForecastDetailsProps> = ({
         style={{ width: `${(forecastData.length - 1) * gapSize + 100}px` }}
       >
         {forecastData.map((item) => (
-          <ItemDetails key={item.dt} item={item} />
+          <ForecastItemDetails key={item.dt} item={item} />
         ))}
       </ul>
       {children}
@@ -32,7 +32,7 @@ const ForecastDetails: React.FC<ForecastDetailsProps> = ({
         {forecastData.map((item) => (
           <li key={item.dt} className="flex max-w-9 items-center">
             <img className="w-5" src="./img/umbrella.svg" alt="umbrella" />
-            <span className="text-sm">{item.pop * 100}%</span>
+            <span className="text-sm">{Math.round(item.pop * 100)}%</span>
           </li>
         ))}
       </ul>

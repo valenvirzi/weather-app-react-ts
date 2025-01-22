@@ -3,8 +3,6 @@ import { CurrentSettings, useSettings } from "../context/SettingsContext";
 
 type Option = { value: string; label: string };
 
-//TODO: Add Dark and Light Themes ¿maybe?
-
 const Settings: React.FC = () => {
   const { currentSettings, setCurrentSettings } = useSettings();
 

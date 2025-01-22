@@ -27,7 +27,7 @@ const ForecastChart: React.FC<ForecastChartProps> = ({
   const forecastDisplay = forecastError ? (
     <p className="text-red-800">{forecastError}</p>
   ) : forecastLoading ? (
-    <img className="w-10 animate-spin" src="./img/loading.svg" />
+    <img className="mx-auto w-10 animate-spin" src="./img/loading.svg" />
   ) : weatherData.forecast?.list?.length ? (
     <ForecastDetails gapSize={gapSize} forecastData={weatherData.forecast.list}>
       <div className="mb-2 h-40 px-10" style={{ width: `${chartWidth}px` }}>

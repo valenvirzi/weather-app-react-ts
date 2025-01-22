@@ -64,10 +64,9 @@ function App() {
   // TODO: Think about a better way to display different screens (such as LocationSearchDisplay or SettingsDisplay), maybe by setting up React.Router for navigation between screens instead of rendering conditionally based on a state for every possible page like it is now.
   {
     /* 
-    TODO: Add new features to the app such as: 
-    - a graph for the wind direction and speed for each item on the forecast.
-    - a graph for the humidity levels for each item on the forecast.
+    TODO: Add new features to the app such as:
     - a display for the sunrise and sunset times for the current date.
+    {weatherData.currentWeather.sys.sunrise, weatherData.currentWeather.sys.sunset}
     */
   }
   // TODO: Export everything that can be exported to clean the code and separate it depending on its functionality.
@@ -118,6 +117,16 @@ function App() {
           backgroundImage:
             "https://images.unsplash.com/photo-1478265409131-1f65c88f965c?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         },
+        Mist: {
+          color: "#8a8b8e",
+          backgroundImage:
+            "https://lik.com/cdn/shop/products/Peter-Lik-Into-the-Mist-Framed-Recess-Mount_1800x.jpg?v=1654815739",
+        },
+        Haze: {
+          color: "#8a8b8e",
+          backgroundImage:
+            "https://lik.com/cdn/shop/products/Peter-Lik-Into-the-Mist-Framed-Recess-Mount_1800x.jpg?v=1654815739",
+        },
       };
       const weatherMain = weatherData.currentWeather.weather[0].main;
       const newTheme = weatherThemes[weatherMain] || {
@@ -138,15 +147,15 @@ function App() {
   return (
     <SettingsProvider>
       <div
-        className={`app relative min-h-screen bg-cover bg-fixed bg-center bg-no-repeat`}
+        className={`app relative min-h-screen bg-cover bg-fixed bg-center bg-no-repeat pb-6`}
         style={{ backgroundImage: `url(${theme.backgroundImage})` }}
       >
         <div
-          className={`absolute inset-0 z-10 opacity-55`}
+          className={`absolute inset-0 opacity-55`}
           style={{ backgroundColor: `${theme.color}` }}
         ></div>
-        <div className="relative z-20 flex flex-col gap-4 text-white">
-          <header className="sticky top-0 flex items-center justify-between bg-opacity-55 bg-gradient-to-b from-black to-transparent p-3">
+        <div className="relative z-10 flex flex-col gap-4 text-white">
+          <header className="sticky top-0 z-20 flex items-center justify-between bg-opacity-55 bg-gradient-to-b from-black to-transparent p-3">
             <button
               className="flex items-center gap-2"
               type="button"
@@ -205,14 +214,14 @@ function App() {
             <></>
           )}
           {!displaySearch ? (
-            <main className="flex min-h-[1000px] flex-col gap-6 px-3">
+            <main className="flex flex-col gap-6 px-3">
               <CurrentWeatherDisplay
                 currentWeatherLoading={currentWeatherLoading}
                 currentWeatherError={currentWeatherError}
                 theme={theme}
               />
               <section
-                className={`flex flex-col gap-4 rounded-lg p-2`}
+                className={`card flex flex-col gap-4 rounded-lg p-2`}
                 style={{ backgroundColor: `${theme.color}` }}
               >
                 <div className="flex items-center justify-between">
@@ -238,7 +247,7 @@ function App() {
                 </div>
               </section>
               <section
-                className={`flex flex-col gap-4 rounded-lg p-2`}
+                className={`card flex flex-col gap-4 rounded-lg p-2`}
                 style={{ backgroundColor: `${theme.color}` }}
               >
                 <div>
@@ -246,6 +255,7 @@ function App() {
                   <ExtraForecastDisplay
                     forecastLoading={forecastLoading}
                     forecastError={forecastError}
+                    theme={theme}
                   />
                 </div>
               </section>

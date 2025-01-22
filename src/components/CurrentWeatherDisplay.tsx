@@ -66,8 +66,8 @@ const CurrentWeatherDisplay: React.FC<CurrentWeatherDisplayProps> = ({
       <section className="flex items-center justify-between gap-4">
         {/* TODO: Make a card component for every type of info shown to not need to hardcode every single one if more were to be added. */}
         <article
-          className={`flex w-full flex-col gap-2 rounded-lg px-4 py-2`}
-          style={{ backgroundColor: `${theme.color}` }}
+          className={`card flex w-full flex-col gap-2 rounded-lg px-4 py-2`}
+          style={{ backgroundColor: `${theme.color} ` }}
         >
           <span className="text-sm">Wind</span>
 
@@ -95,7 +95,7 @@ const CurrentWeatherDisplay: React.FC<CurrentWeatherDisplayProps> = ({
           </div>
         </article>
         <article
-          className={`flex w-full flex-col gap-2 rounded-lg px-4 py-2`}
+          className={`card flex w-full flex-col gap-2 rounded-lg px-4 py-2`}
           style={{ backgroundColor: `${theme.color}` }}
         >
           <span className="text-sm">Feels Like</span>
@@ -112,7 +112,7 @@ const CurrentWeatherDisplay: React.FC<CurrentWeatherDisplayProps> = ({
       </section>
       <section className="flex items-center justify-between gap-4">
         <article
-          className={`flex w-full flex-col gap-2 rounded-lg px-4 py-2`}
+          className={`card flex w-full flex-col gap-2 rounded-lg px-4 py-2`}
           style={{ backgroundColor: `${theme.color}` }}
         >
           <span className="text-sm">Pressure</span>
@@ -125,7 +125,7 @@ const CurrentWeatherDisplay: React.FC<CurrentWeatherDisplayProps> = ({
           </div>
         </article>
         <article
-          className={`flex w-full flex-col gap-2 rounded-lg px-4 py-2`}
+          className={`card flex w-full flex-col gap-2 rounded-lg px-4 py-2`}
           style={{ backgroundColor: `${theme.color}` }}
         >
           <span className="text-sm">Humidity</span>

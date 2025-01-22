@@ -1,30 +1,25 @@
 import { ForecastItem } from "../types/types";
 import useTemperatureConversion from "../hooks/useTemperatureConversion";
 import { useSettings } from "../context/SettingsContext";
+import DayHourItem from "./DayHourItem";
 
 // TODO: Export type to types.ts file
-interface ItemDetailsProps {
+interface ForecastItemDetailsProps {
   item: ForecastItem;
 }
 
-const ItemDetails: React.FC<ItemDetailsProps> = ({ item }) => {
+const ForecastItemDetails: React.FC<ForecastItemDetailsProps> = ({ item }) => {
   const { currentSettings } = useSettings();
   const convetedTemp = useTemperatureConversion(
     item.main.temp,
     currentSettings.tempUnit,
   );
-  const formatDateToDayMonth = (dateString: string): string => {
-    const [datePart] = dateString.split(" "); // Extract the date part (YYYY-MM-DD)
-    const [year, month, day] = datePart.split("-"); // Split into year, month, and day
-    return `${day}/${month}`; // Format as "DD/MM"
-  };
-  const formattedDate = formatDateToDayMonth(item.dt_txt);
+
   return (
     <li key={item.dt} className="group flex max-w-10 flex-col items-center">
-      <span className="text-xs">{formattedDate}</span>
-      <span>{item.dt_txt.slice(11, 16)}</span>
+      <DayHourItem dateText={item.dt_txt} />
       <img
-        className="w-10"
+        className="min-w-12"
         src={`https://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`}
         alt="rain"
       />
@@ -36,4 +31,4 @@ const ItemDetails: React.FC<ItemDetailsProps> = ({ item }) => {
   );
 };
 
-export default ItemDetails;
+export default ForecastItemDetails;
