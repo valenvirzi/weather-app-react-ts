@@ -46,40 +46,42 @@ const ExtraForecastDisplay: React.FC<ExtraForecastDisplayProps> = ({
   }
 
   return (
-    <div className="flex flex-col gap-2">
-      <div className="flex items-center gap-2">
-        <img className="w-6 md:w-7" src="./img/graph.svg" alt="graph" />
-        <h3 className="md:text-lg">Details</h3>
+    <div className="flex flex-col justify-between gap-2">
+      <div className="flex flex-col gap-2">
+        <div className="flex items-center gap-2">
+          <img className="w-6 md:w-7" src="./img/graph.svg" alt="graph" />
+          <h3 className="md:text-lg">Details</h3>
+        </div>
+        <ul className="flex gap-2 overflow-x-auto py-2 text-sm xl:gap-3 xl:text-base">
+          <li>
+            <button
+              type="button"
+              onPointerDown={() => setPropertyDisplayed("humidity")}
+              className="rounded border bg-blue-500 p-2 hover:bg-blue-600 focus:bg-sky-500"
+            >
+              Humidity
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              onPointerDown={() => setPropertyDisplayed("precipitation")}
+              className="rounded border bg-blue-500 p-2 hover:bg-blue-600 focus:bg-sky-500"
+            >
+              Precipitation
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              onPointerDown={() => setPropertyDisplayed("wind")}
+              className="rounded border bg-blue-500 p-2 hover:bg-blue-600 focus:bg-sky-500"
+            >
+              Wind
+            </button>
+          </li>
+        </ul>
       </div>
-      <ul className="flex gap-2 overflow-x-auto py-2 text-sm">
-        <li>
-          <button
-            type="button"
-            onPointerDown={() => setPropertyDisplayed("humidity")}
-            className="rounded border bg-blue-500 p-2 hover:bg-blue-600 focus:bg-sky-500"
-          >
-            Humidity
-          </button>
-        </li>
-        <li>
-          <button
-            type="button"
-            onPointerDown={() => setPropertyDisplayed("precipitation")}
-            className="rounded border bg-blue-500 p-2 hover:bg-blue-600 focus:bg-sky-500"
-          >
-            Precipitation
-          </button>
-        </li>
-        <li>
-          <button
-            type="button"
-            onPointerDown={() => setPropertyDisplayed("wind")}
-            className="rounded border bg-blue-500 p-2 hover:bg-blue-600 focus:bg-sky-500"
-          >
-            Wind
-          </button>
-        </li>
-      </ul>
       <div className="w-full overflow-x-auto">{display}</div>
     </div>
   );

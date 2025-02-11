@@ -1,7 +1,7 @@
 import { useSettings } from "../context/SettingsContext";
-import useFormatDateToDayMonth from "../hooks/useFormatDateToDayMonth";
 import useSpeedConversion from "../hooks/useSpeedConversion";
 import { ForecastItem } from "../types/types";
+import DayHourItem from "./DayHourItem";
 
 interface WindItemProps {
   item: ForecastItem;
@@ -22,8 +22,6 @@ const WindItem: React.FC<WindItemProps> = ({ item, theme }) => {
     return `rgba(255, ${intensity}, 0, 1)`; // Blue-green with variable intensity
   };
 
-  const formattedDate = useFormatDateToDayMonth(item.dt_txt);
-
   const windDirection = item.wind.deg.toString();
   const windSpeedValue = item.wind.speed;
 
@@ -33,10 +31,10 @@ const WindItem: React.FC<WindItemProps> = ({ item, theme }) => {
   );
 
   return (
-    <div className="relative flex flex-col items-center gap-6">
-      <div className="flex flex-col items-center text-sm">
+    <div className="relative flex flex-col items-center gap-7">
+      <div className="flex flex-col items-center text-sm lg:text-base">
         <span>{convertedWindSpeed}</span>
-        <span className="text-xs">{currentSettings.speedUnit}</span>
+        <span className="text-xs xl:text-sm">{currentSettings.speedUnit}</span>
       </div>
 
       <div
@@ -45,7 +43,7 @@ const WindItem: React.FC<WindItemProps> = ({ item, theme }) => {
         // style={{ border: `${getColor(item.wind.speed)}` }}
       >
         <span
-          className="relative -top-[60%] p-0.5 text-sm"
+          className="relative -top-[60%] p-0.5 text-center text-sm"
           style={{ backgroundColor: `${theme.color}` }}
         >
           N
@@ -59,10 +57,7 @@ const WindItem: React.FC<WindItemProps> = ({ item, theme }) => {
           }}
         />
       </div>
-      <div className="flex flex-col items-center text-sm">
-        <span className="text-xs">{formattedDate}</span>
-        <span>{item.dt_txt.slice(11, 16)}</span>
-      </div>
+      <DayHourItem dateText={item.dt_txt} />
     </div>
   );
 };

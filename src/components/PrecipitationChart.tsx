@@ -50,10 +50,10 @@ const PrecipitationChart: React.FC<PrecipitationChartProps> = ({
         label: "Rain/Snow (mm)",
         data: values,
         backgroundColor: values?.map((value) =>
-          value > 0 ? "rgba(54, 162, 235, 0.7)" : "rgba(211, 211, 211, 0.7)",
+          value > 0 ? "rgba(59, 130, 235, 1)" : "rgba(211, 211, 211, 0.7)",
         ),
         borderColor: values?.map((value) =>
-          value > 0 ? "rgba(54, 162, 235, 1)" : "rgba(211, 211, 211, 1)",
+          value > 0 ? "rgba(59, 130, 235, 1)" : "rgba(211, 211, 211, 1)",
         ),
         borderWidth: 1,
         borderRadius: 5,

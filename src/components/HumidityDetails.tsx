@@ -27,7 +27,9 @@ const HumidityDetails: React.FC<HumidityDetailsProps> = ({
                 top: `${item.main.humidity >= 90 ? -(item.main.humidity - 90) : Math.max(0, Math.min(110, 1400 / item.main.humidity))}px`,
               }}
             >
-              <span className="text-sm">{item.main.humidity}%</span>
+              <span className="text-sm lg:text-base">
+                {item.main.humidity}%
+              </span>
             </li>
           );
         })}

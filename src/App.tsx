@@ -156,18 +156,18 @@ function App() {
           style={{ backgroundColor: `${theme.color}` }}
         ></div>
         <div className="relative z-10 flex flex-col gap-4 text-white">
-          <header className="sticky top-0 z-20 flex items-center justify-between bg-opacity-55 bg-gradient-to-b from-black to-transparent p-3">
+          <header className="sticky top-0 z-20 flex items-center justify-between bg-opacity-55 bg-gradient-to-b from-black to-transparent p-3 xl:px-5 2xl:px-7">
             <button
               className="flex items-center gap-2"
               type="button"
               onPointerDown={() => setDisplaySearch(!displaySearch)}
             >
               <img
-                className="w-6"
+                className="w-6 md:w-7 xl:w-8"
                 src="./img/locationPin.svg"
                 alt="location icon"
               />
-              <span>{weatherData.city?.name}</span>
+              <span className="xl:text-lg">{weatherData.city?.name}</span>
             </button>
             {!displaySearch ? (
               <div className="flex items-center gap-4">
@@ -176,7 +176,7 @@ function App() {
                   onPointerDown={() => setDisplaySearch(!displaySearch)}
                 >
                   <img
-                    className="w-6"
+                    className="w-6 md:w-7 xl:w-8"
                     src="./img/search.svg"
                     alt="search icon"
                   />
@@ -185,7 +185,7 @@ function App() {
                 {!displaySettings ? (
                   <button type="button" onPointerDown={toggleSettingsDisplay}>
                     <img
-                      className="w-6"
+                      className="w-6 md:w-7 xl:w-8"
                       src="./img/options.svg"
                       alt="options icon"
                     />
@@ -193,7 +193,7 @@ function App() {
                 ) : (
                   <button type="button" onPointerDown={toggleSettingsDisplay}>
                     <img
-                      className="w-6"
+                      className="w-6 md:w-7 xl:w-8"
                       src="./img/close.svg"
                       alt="close icon"
                     />
@@ -225,7 +225,7 @@ function App() {
             <></>
           )}
           {!displaySearch ? (
-            <main className="flex flex-col gap-6 px-3">
+            <main className="flex flex-col gap-6 px-3 xl:px-5 2xl:px-7">
               <CurrentWeatherDisplay
                 currentWeatherLoading={currentWeatherLoading}
                 currentWeatherError={currentWeatherError}
@@ -242,7 +242,7 @@ function App() {
                       src="./img/calendar.svg"
                       alt="calendar"
                     />
-                    <h3 className="md:text-lg">5 day forecast</h3>
+                    <h3 className="md:text-lg">5 Day Forecast</h3>
                   </div>
                   <div className="flex items-center gap-1 px-1 text-xs opacity-70 md:text-sm">
                     <span>3</span>

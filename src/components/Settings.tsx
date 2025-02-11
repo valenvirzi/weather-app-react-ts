@@ -47,11 +47,11 @@ const Settings: React.FC = () => {
     };
 
   return (
-    <ul className="flex flex-col gap-px">
+    <ul className="flex flex-col items-center gap-px">
       {Object.entries(options).map(([key, values]) => (
         <li
           key={key}
-          className="flex items-center justify-between gap-2 bg-black bg-opacity-75 px-3 py-4 md:px-5"
+          className="flex w-full items-center justify-between gap-2 bg-black bg-opacity-75 px-3 py-4 md:px-5"
         >
           <label htmlFor={key} className="text-sm md:text-base">
             {labels[key]}

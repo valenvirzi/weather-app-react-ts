@@ -49,108 +49,112 @@ const CurrentWeatherDisplay: React.FC<CurrentWeatherDisplayProps> = ({
     currentSettings.speedUnit,
   );
   return (
-    <div className="flex flex-col gap-4">
-      <section className="flex flex-col items-center gap-4">
+    <div className="flex flex-col gap-5 xl:flex-row">
+      <section className="flex flex-col items-center gap-4 xl:w-1/2 xl:p-2 2xl:gap-6">
         <div className="flex">
-          <h2 className="text-6xl">{tempDisplay}</h2>
-          <span className="">
+          <h2 className="text-6xl xl:text-7xl">{tempDisplay}</h2>
+          <span className="xl:text-lg">
             {tempValue ? `°${currentSettings.tempUnit}` : ""}
           </span>
         </div>
-        <h2 className="text-xl">{formattedDescription}</h2>
-        <div className="flex flex-col items-center gap-1 text-sm md:text-base">
+        <h2 className="text-xl xl:text-2xl">{formattedDescription}</h2>
+        <div className="flex flex-col items-center gap-1 text-sm md:text-base xl:text-lg">
           <span>{formattedDate.split(" ").slice(-2).join(" ")}</span>
           <span>{formattedDate.slice(0, -12)}</span>
         </div>
       </section>
-      <section className="flex items-center justify-between gap-4">
-        {/* TODO: Make a card component for every type of info shown to not need to hardcode every single one if more were to be added. */}
-        <article
-          className={`card flex w-full flex-col gap-2 rounded-lg px-4 py-2`}
-          style={{ backgroundColor: `${theme.color} ` }}
-        >
-          <span className="text-sm md:text-base">Wind</span>
+      <section className="flex flex-col gap-4 xl:w-4/5 xl:justify-evenly">
+        <section className="flex items-center justify-between gap-4 xl:h-full xl:items-stretch">
+          {/* TODO: Make a card component for every type of info shown to not need to hardcode every single one if more were to be added. */}
+          <article
+            className={`card flex w-full flex-col gap-2 rounded-lg px-4 py-2 xl:justify-between xl:py-3`}
+            style={{ backgroundColor: `${theme.color} ` }}
+          >
+            <span className="text-sm md:text-base xl:text-xl">Wind</span>
 
-          <div className="relative flex gap-2">
-            <div className="relative flex h-6 w-6 select-none items-center justify-center rounded-full border-2 border-white md:h-7 md:w-7">
-              <span
-                className="relative -top-[60%] p-px text-xs lg:p-[2px] lg:text-sm"
-                style={{ backgroundColor: `${theme.color}` }}
-              >
-                N
-              </span>
+            <div className="relative flex gap-2 xl:gap-4">
+              <div className="relative flex h-6 w-6 select-none items-center justify-center rounded-full border-2 border-white md:h-7 md:w-7 2xl:h-9 2xl:w-9">
+                <span
+                  className="relative -top-[60%] p-px text-center text-xs lg:p-[2px] lg:text-sm"
+                  style={{ backgroundColor: `${theme.color}` }}
+                >
+                  N
+                </span>
+                <img
+                  src="./img/directionArrow.svg"
+                  alt="direction"
+                  className="absolute max-w-4 md:max-w-5 2xl:max-w-6"
+                  style={{
+                    transform: `rotate(${windDirection}deg)`,
+                  }}
+                />
+              </div>
+              <div className="flex items-center gap-1">
+                <span className="md:text-lg xl:text-xl">
+                  {convertedWindSpeed}
+                </span>
+                <span className="text-sm md:text-base xl:text-xl">
+                  {currentSettings.speedUnit}
+                </span>
+              </div>
+            </div>
+          </article>
+          <article
+            className={`card flex w-full flex-col gap-2 rounded-lg px-4 py-2 xl:justify-between xl:py-3`}
+            style={{ backgroundColor: `${theme.color}` }}
+          >
+            <span className="text-sm md:text-base xl:text-xl">Feels Like</span>
+            <div className="flex items-center gap-2 xl:gap-4">
               <img
-                src="./img/directionArrow.svg"
-                alt="direction"
-                className="absolute max-w-4 md:max-w-5"
-                style={{
-                  transform: `rotate(${windDirection}deg)`,
-                }}
+                className="w-6 md:w-7 xl:w-8"
+                src="./img/feelsLike.svg"
+                alt="feelsLike"
               />
+              <div className="flex items-center md:text-lg xl:text-xl">
+                <span>{convertedFeelsLike}</span>
+                <span>
+                  {feelsLikeValue ? `°${currentSettings.tempUnit}` : ""}
+                </span>
+              </div>
             </div>
-            <div className="flex items-center gap-1">
-              <span className="md:text-lg">{convertedWindSpeed}</span>
-              <span className="text-sm md:text-base">
-                {currentSettings.speedUnit}
-              </span>
+          </article>
+        </section>
+        <section className="flex items-center justify-between gap-4 xl:h-full xl:items-stretch">
+          <article
+            className={`card flex w-full flex-col gap-2 rounded-lg px-4 py-2 xl:justify-between xl:py-3`}
+            style={{ backgroundColor: `${theme.color}` }}
+          >
+            <span className="text-sm md:text-base xl:text-xl">Pressure</span>
+            <div className="flex items-center gap-2 xl:gap-4">
+              <img
+                className="w-6 md:w-7 xl:w-8"
+                src="./img/pressure.svg"
+                alt="pressure"
+              />
+              <div className="flex items-center gap-1 md:text-lg xl:text-xl">
+                <span>{weatherData.currentWeather?.main.pressure}</span>
+                <span>hPa</span>
+              </div>
             </div>
-          </div>
-        </article>
-        <article
-          className={`card flex w-full flex-col gap-2 rounded-lg px-4 py-2`}
-          style={{ backgroundColor: `${theme.color}` }}
-        >
-          <span className="text-sm md:text-base">Feels Like</span>
-          <div className="flex items-center gap-2">
-            <img
-              className="w-6 md:w-7"
-              src="./img/feelsLike.svg"
-              alt="feelsLike"
-            />
-            <div className="flex items-center md:text-lg">
-              <span>{convertedFeelsLike}</span>
-              <span>
-                {feelsLikeValue ? `°${currentSettings.tempUnit}` : ""}
-              </span>
+          </article>
+          <article
+            className={`card flex w-full flex-col gap-2 rounded-lg px-4 py-2 xl:justify-between xl:py-3`}
+            style={{ backgroundColor: `${theme.color}` }}
+          >
+            <span className="text-sm md:text-base xl:text-xl">Humidity</span>
+            <div className="flex items-center gap-2 xl:gap-4">
+              <img
+                className="w-6 md:w-7 xl:w-8"
+                src="./img/humidity.svg"
+                alt="humidity"
+              />
+              <div className="flex items-center md:text-lg xl:text-xl">
+                <span>{weatherData.currentWeather?.main.humidity ?? 0}</span>
+                <span>%</span>
+              </div>
             </div>
-          </div>
-        </article>
-      </section>
-      <section className="flex items-center justify-between gap-4">
-        <article
-          className={`card flex w-full flex-col gap-2 rounded-lg px-4 py-2`}
-          style={{ backgroundColor: `${theme.color}` }}
-        >
-          <span className="text-sm md:text-base">Pressure</span>
-          <div className="flex items-center gap-2">
-            <img
-              className="w-6 md:w-7"
-              src="./img/pressure.svg"
-              alt="pressure"
-            />
-            <div className="flex items-center gap-1 md:text-lg">
-              <span>{weatherData.currentWeather?.main.pressure}</span>
-              <span>hPa</span>
-            </div>
-          </div>
-        </article>
-        <article
-          className={`card flex w-full flex-col gap-2 rounded-lg px-4 py-2`}
-          style={{ backgroundColor: `${theme.color}` }}
-        >
-          <span className="text-sm md:text-base">Humidity</span>
-          <div className="flex items-center gap-2">
-            <img
-              className="w-6 md:w-7"
-              src="./img/humidity.svg"
-              alt="humidity"
-            />
-            <div className="flex items-center md:text-lg">
-              <span>{weatherData.currentWeather?.main.humidity ?? 0}</span>
-              <span>%</span>
-            </div>
-          </div>
-        </article>
+          </article>
+        </section>
       </section>
     </div>
   );
