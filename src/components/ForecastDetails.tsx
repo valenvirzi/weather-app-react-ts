@@ -30,9 +30,18 @@ const ForecastDetails: React.FC<ForecastDetailsProps> = ({
         style={{ width: `${(forecastData.length - 1) * gapSize + 100}px` }}
       >
         {forecastData.map((item) => (
-          <li key={item.dt} className="flex max-w-9 items-center">
-            <img className="w-5" src="./img/umbrella.svg" alt="umbrella" />
-            <span className="text-sm">{Math.round(item.pop * 100)}%</span>
+          <li
+            key={item.dt}
+            className="relative right-1 flex max-w-9 items-center md:right-2"
+          >
+            <img
+              className="w-5 md:w-6"
+              src="./img/umbrella.svg"
+              alt="umbrella"
+            />
+            <span className="text-sm md:text-base">
+              {Math.round(item.pop * 100)}%
+            </span>
           </li>
         ))}
       </ul>

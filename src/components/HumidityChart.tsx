@@ -104,7 +104,7 @@ const HumidityChart: React.FC<HumidityChartProps> = ({
       chartWidth={chartWidth}
       forecastData={weatherData.forecast.list}
     >
-      <div className="h-40 px-9" style={{ width: `${chartWidth}px` }}>
+      <div className="h-36 px-9" style={{ width: `${chartWidth}px` }}>
         <Bar
           options={options}
           data={humidityChartData(weatherData.forecast?.list)}

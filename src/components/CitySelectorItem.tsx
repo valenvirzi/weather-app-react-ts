@@ -4,10 +4,10 @@ import { CityData, GeoCoordinates } from "../types/types";
 // TODO: Export type to types.ts file
 interface CitySelectorItemProps {
   city: CityData;
+  isFavorite: boolean;
   fetchCurrentWeather: (coord: GeoCoordinates) => void;
   fetchForecast: (coord: GeoCoordinates) => void;
   setDisplaySearch: (displaySearch: boolean) => void;
-  isFavorite: boolean;
   toggleFavoriteCity: (city: CityData) => void;
 }
 

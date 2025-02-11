@@ -18,6 +18,10 @@ const Settings: React.FC = () => {
       { value: "Km/h", label: "Km/h" },
       { value: "M/h", label: "M/h" },
     ],
+    dateFormat: [
+      { value: "DD/MM", label: "DD/MM" },
+      { value: "MM/DD", label: "MM/DD" },
+    ],
     language: [
       { value: "en", label: "English" },
       { value: "es", label: "Spanish" },
@@ -29,6 +33,7 @@ const Settings: React.FC = () => {
   const labels: { [key: string]: string } = {
     tempUnit: "Temperature unit",
     speedUnit: "Speed unit",
+    dateFormat: "Date format",
     language: "Language",
   };
 
@@ -46,9 +51,9 @@ const Settings: React.FC = () => {
       {Object.entries(options).map(([key, values]) => (
         <li
           key={key}
-          className="flex items-center justify-between gap-2 bg-black bg-opacity-75 px-3 py-4"
+          className="flex items-center justify-between gap-2 bg-black bg-opacity-75 px-3 py-4 md:px-5"
         >
-          <label htmlFor={key} className="text-sm">
+          <label htmlFor={key} className="text-sm md:text-base">
             {labels[key]}
           </label>
           <select
@@ -56,7 +61,7 @@ const Settings: React.FC = () => {
             id={key}
             value={currentSettings[key as keyof CurrentSettings]}
             onChange={handleSelectChange(key)}
-            className="bg-transparent p-2 text-sm"
+            className="cursor-pointer bg-transparent p-2 text-sm md:text-base"
           >
             {values.map((option) => (
               <option

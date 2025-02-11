@@ -22,7 +22,7 @@ const WindChart: React.FC<WindChartProps> = ({
   ) : forecastLoading ? (
     <img className="mx-auto w-10 animate-spin" src="./img/loading.svg" />
   ) : weatherData.forecast?.list?.length ? (
-    <ul className="mb-2 flex w-full gap-10 overflow-x-auto p-4 px-8 pt-2">
+    <ul className="flex h-56 w-full items-center gap-10 overflow-x-auto px-10">
       {weatherData.forecast.list.map((item) => {
         return <WindItem key={item.dt} item={item} theme={theme} />;
       })}

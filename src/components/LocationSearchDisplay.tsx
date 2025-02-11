@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { CityData, GeoCoordinates } from "../types/types";
-import CitySelectorItem from "./CitySelectorItem";
 import { useWeatherData, WeatherData } from "../context/WeatherDataContext";
 import useReverseGeocoding from "../hooks/useReverseGeocoding";
+import CollapsibleList from "./CollapsibleList";
 
 // TODO: Export type to types.ts file
 interface LocationSearchDisplayProps {
@@ -113,24 +113,21 @@ const LocationSearchDisplay: React.FC<LocationSearchDisplayProps> = ({
     );
   };
 
-  const mergedCities = [
-    ...favoriteCities.filter(
-      (favCity) =>
-        !cities?.some(
-          (city) =>
-            city.latitude === favCity.latitude &&
-            city.longitude === favCity.longitude,
-        ),
-    ),
-    ...(cities || []),
-  ];
+  const filteredCities = (cities || []).filter(
+    (city) =>
+      !favoriteCities.some(
+        (favCity) =>
+          city.latitude === favCity.latitude &&
+          city.longitude === favCity.longitude,
+      ),
+  );
 
   return (
-    <div className="flex flex-col gap-px">
+    <div className="flex flex-col">
       <form
         id="citySearchForm"
         onSubmit={handleCitySearch}
-        className="flex items-stretch bg-black bg-opacity-75"
+        className="flex items-stretch bg-black bg-opacity-80"
         action=""
         method="get"
       >
@@ -173,38 +170,50 @@ const LocationSearchDisplay: React.FC<LocationSearchDisplayProps> = ({
           />
         </button>
       </form>
-      {mergedCities && (
-        <ul className="flex flex-col gap-px">
-          {mergedCities?.map((city, index) => {
-            return (
-              <li key={`${city.latitude},${city.longitude},${index}`}>
-                <CitySelectorItem
-                  city={city}
-                  fetchCurrentWeather={fetchCurrentWeather}
-                  fetchForecast={fetchForecast}
-                  setDisplaySearch={setDisplaySearch}
-                  toggleFavoriteCity={toggleFavoriteCity}
-                  isFavorite={favoriteCities.some(
-                    (favCity) =>
-                      favCity.latitude === city.latitude &&
-                      favCity.longitude === city.longitude,
-                  )}
-                />
-              </li>
-            );
-          })}
-        </ul>
+      {cities?.length ? (
+        <CollapsibleList
+          title="Search Results"
+          cityList={filteredCities}
+          favoriteCities={favoriteCities}
+          fetchCurrentWeather={fetchCurrentWeather}
+          fetchForecast={fetchForecast}
+          setDisplaySearch={setDisplaySearch}
+          toggleFavoriteCity={toggleFavoriteCity}
+        />
+      ) : citiesLoading ? (
+        <></>
+      ) : citiesError ? (
+        <></>
+      ) : (
+        <div className="my-px bg-black bg-opacity-75 p-5">
+          <h2>There are no cities with that name</h2>
+        </div>
       )}
       {citiesLoading && (
-        <img
-          className="mt-6 aspect-square max-w-10 animate-spin self-center"
-          src="./img/loading.svg"
-          alt="loading"
-        />
+        <div className="my-px flex items-center justify-center bg-black bg-opacity-75 p-4">
+          <img
+            className="aspect-square max-w-8 animate-spin self-center"
+            src="./img/loading.svg"
+            alt="loading"
+          />
+        </div>
       )}
 
       {citiesError && (
         <p className="mt-4 self-center text-2xl text-red-600">{citiesError}</p>
+      )}
+      {favoriteCities.length ? (
+        <CollapsibleList
+          title="Favorite Cities"
+          cityList={favoriteCities}
+          favoriteCities={favoriteCities}
+          fetchCurrentWeather={fetchCurrentWeather}
+          fetchForecast={fetchForecast}
+          setDisplaySearch={setDisplaySearch}
+          toggleFavoriteCity={toggleFavoriteCity}
+        />
+      ) : (
+        <></>
       )}
     </div>
   );

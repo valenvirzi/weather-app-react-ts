@@ -11,6 +11,7 @@ import React, {
 export type CurrentSettings = {
   tempUnit: string;
   speedUnit: string;
+  dateFormat: string;
   language: string;
 };
 
@@ -18,6 +19,7 @@ export type CurrentSettings = {
 const defaultSettings: CurrentSettings = {
   tempUnit: "K",
   speedUnit: "m/s",
+  dateFormat: "DD/MM",
   language: "en",
 };
 

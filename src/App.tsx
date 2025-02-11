@@ -14,6 +14,7 @@ function App() {
   // TODO: Hide the ApiKeys in a .env file
   // TODO: Change Geocoding API to the one on the link because the current one only supports search by exact name instad of partial name.
   // https://docs.mapbox.com/playground/geocoding/?search_text=orla&limit=10&proximity=ip&searchType=forward
+  // https://docs.mapbox.com/api/search/geocoding/?utm_medium=pricing&utm_content=temporary-api#geocoding-api-pricing
   const geocodingApiKey = "heRF6kJUGfGXsgT7lpj2sA==DAabcgoiFqoC7lK5";
   const weatherApiKey = "19460d6e8004c61debf07d5ca332ee8d";
 
@@ -231,19 +232,19 @@ function App() {
                 theme={theme}
               />
               <section
-                className={`card flex flex-col gap-4 rounded-lg p-2`}
+                className={`card flex flex-col gap-4 rounded-lg p-2 md:px-3`}
                 style={{ backgroundColor: `${theme.color}` }}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <img
-                      className="w-6"
+                      className="w-6 md:w-7"
                       src="./img/calendar.svg"
                       alt="calendar"
                     />
-                    <h3 className="">5 day forecast</h3>
+                    <h3 className="md:text-lg">5 day forecast</h3>
                   </div>
-                  <div className="flex items-center gap-1 px-1 text-xs opacity-70">
+                  <div className="flex items-center gap-1 px-1 text-xs opacity-70 md:text-sm">
                     <span>3</span>
                     <span>hours</span>
                   </div>
@@ -257,7 +258,7 @@ function App() {
                 </div>
               </section>
               <section
-                className={`card flex flex-col gap-4 rounded-lg p-2`}
+                className={`card flex flex-col gap-4 rounded-lg p-2 md:px-3`}
                 style={{ backgroundColor: `${theme.color}` }}
               >
                 <div>

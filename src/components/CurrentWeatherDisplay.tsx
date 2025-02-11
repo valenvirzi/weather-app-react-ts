@@ -58,7 +58,7 @@ const CurrentWeatherDisplay: React.FC<CurrentWeatherDisplayProps> = ({
           </span>
         </div>
         <h2 className="text-xl">{formattedDescription}</h2>
-        <div className="flex flex-col items-center gap-1 text-sm">
+        <div className="flex flex-col items-center gap-1 text-sm md:text-base">
           <span>{formattedDate.split(" ").slice(-2).join(" ")}</span>
           <span>{formattedDate.slice(0, -12)}</span>
         </div>
@@ -69,12 +69,12 @@ const CurrentWeatherDisplay: React.FC<CurrentWeatherDisplayProps> = ({
           className={`card flex w-full flex-col gap-2 rounded-lg px-4 py-2`}
           style={{ backgroundColor: `${theme.color} ` }}
         >
-          <span className="text-sm">Wind</span>
+          <span className="text-sm md:text-base">Wind</span>
 
           <div className="relative flex gap-2">
-            <div className="relative flex h-6 w-6 select-none items-center justify-center rounded-full border-2 border-white">
+            <div className="relative flex h-6 w-6 select-none items-center justify-center rounded-full border-2 border-white md:h-7 md:w-7">
               <span
-                className="relative -top-[60%] p-px text-xs"
+                className="relative -top-[60%] p-px text-xs lg:p-[2px] lg:text-sm"
                 style={{ backgroundColor: `${theme.color}` }}
               >
                 N
@@ -82,15 +82,17 @@ const CurrentWeatherDisplay: React.FC<CurrentWeatherDisplayProps> = ({
               <img
                 src="./img/directionArrow.svg"
                 alt="direction"
-                className="absolute max-w-4"
+                className="absolute max-w-4 md:max-w-5"
                 style={{
                   transform: `rotate(${windDirection}deg)`,
                 }}
               />
             </div>
             <div className="flex items-center gap-1">
-              <span>{convertedWindSpeed}</span>
-              <span className="text-sm">{currentSettings.speedUnit}</span>
+              <span className="md:text-lg">{convertedWindSpeed}</span>
+              <span className="text-sm md:text-base">
+                {currentSettings.speedUnit}
+              </span>
             </div>
           </div>
         </article>
@@ -98,10 +100,14 @@ const CurrentWeatherDisplay: React.FC<CurrentWeatherDisplayProps> = ({
           className={`card flex w-full flex-col gap-2 rounded-lg px-4 py-2`}
           style={{ backgroundColor: `${theme.color}` }}
         >
-          <span className="text-sm">Feels Like</span>
+          <span className="text-sm md:text-base">Feels Like</span>
           <div className="flex items-center gap-2">
-            <img className="w-6" src="./img/feelsLike.svg" alt="feelsLike" />
-            <div className="flex items-center">
+            <img
+              className="w-6 md:w-7"
+              src="./img/feelsLike.svg"
+              alt="feelsLike"
+            />
+            <div className="flex items-center md:text-lg">
               <span>{convertedFeelsLike}</span>
               <span>
                 {feelsLikeValue ? `°${currentSettings.tempUnit}` : ""}
@@ -115,10 +121,14 @@ const CurrentWeatherDisplay: React.FC<CurrentWeatherDisplayProps> = ({
           className={`card flex w-full flex-col gap-2 rounded-lg px-4 py-2`}
           style={{ backgroundColor: `${theme.color}` }}
         >
-          <span className="text-sm">Pressure</span>
+          <span className="text-sm md:text-base">Pressure</span>
           <div className="flex items-center gap-2">
-            <img className="w-6" src="./img/pressure.svg" alt="pressure" />
-            <div className="flex items-center gap-1">
+            <img
+              className="w-6 md:w-7"
+              src="./img/pressure.svg"
+              alt="pressure"
+            />
+            <div className="flex items-center gap-1 md:text-lg">
               <span>{weatherData.currentWeather?.main.pressure}</span>
               <span>hPa</span>
             </div>
@@ -128,10 +138,14 @@ const CurrentWeatherDisplay: React.FC<CurrentWeatherDisplayProps> = ({
           className={`card flex w-full flex-col gap-2 rounded-lg px-4 py-2`}
           style={{ backgroundColor: `${theme.color}` }}
         >
-          <span className="text-sm">Humidity</span>
+          <span className="text-sm md:text-base">Humidity</span>
           <div className="flex items-center gap-2">
-            <img className="w-6" src="./img/humidity.svg" alt="humidity" />
-            <div className="flex items-center">
+            <img
+              className="w-6 md:w-7"
+              src="./img/humidity.svg"
+              alt="humidity"
+            />
+            <div className="flex items-center md:text-lg">
               <span>{weatherData.currentWeather?.main.humidity ?? 0}</span>
               <span>%</span>
             </div>

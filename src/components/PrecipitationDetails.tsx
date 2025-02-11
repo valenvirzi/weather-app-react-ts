@@ -26,9 +26,9 @@ const PrecipitationDetails: React.FC<PrecipitationDetailsProps> = ({
           return (
             <li
               key={item.dt}
-              className="relative flex max-w-7 flex-col items-center text-center"
+              className="relative flex max-w-7 flex-col items-center text-center lg:max-w-5"
             >
-              <span className="text-sm">
+              <span className="text-sm lg:text-base">
                 {precipitationList[index] === 0
                   ? "0.0"
                   : precipitationList[index]}{" "}
